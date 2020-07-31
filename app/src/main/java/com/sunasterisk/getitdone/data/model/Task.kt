@@ -1,10 +1,14 @@
 package com.sunasterisk.getitdone.data.model
 
+import android.content.ContentValues
+import android.database.Cursor
 import android.os.Parcelable
 import com.sunasterisk.getitdone.utils.Constants.DEFAULT_COLOR
 import com.sunasterisk.getitdone.utils.Constants.DEFAULT_ID
 import com.sunasterisk.getitdone.utils.Constants.EMPTY_STRING
 import com.sunasterisk.getitdone.utils.Constants.STATUS_NOT_COMPLETE
+import com.sunasterisk.getitdone.utils.Constants.TRUE
+import com.sunasterisk.getitdone.utils.Database
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
@@ -17,6 +21,56 @@ data class Task(
     var isImportant: Boolean = false,
     var isInMyDay: Boolean = false,
     var color: String = DEFAULT_COLOR,
-    var status: Int = STATUS_NOT_COMPLETE,
+    var status: String = STATUS_NOT_COMPLETE,
     var timeCreated: String = EMPTY_STRING
-) : Parcelable
+) : Parcelable {
+    constructor(cursor: Cursor) : this(
+        cursor.getInt(cursor.getColumnIndex(ID)),
+        cursor.getInt(cursor.getColumnIndex(LIST_ID)),
+        cursor.getString(cursor.getColumnIndex(TITLE)),
+        cursor.getString(cursor.getColumnIndex(DESCRIPTION)),
+        cursor.getString(cursor.getColumnIndex(TIME_REMINDER)),
+        cursor.getInt(cursor.getColumnIndex(IS_IMPORTANT)) == TRUE,
+        cursor.getInt(cursor.getColumnIndex(IS_IN_MY_DAY)) == TRUE,
+        cursor.getString(cursor.getColumnIndex(COLOR)),
+        cursor.getString(cursor.getColumnIndex(STATUS)),
+        cursor.getString(cursor.getColumnIndex(TIME_CREATED))
+    )
+
+    fun getContentValues() =
+        ContentValues().apply {
+            put(LIST_ID, listId)
+            put(TITLE, title)
+            put(DESCRIPTION, description)
+            put(TIME_REMINDER, timeReminder)
+            put(IS_IMPORTANT, isImportant)
+            put(IS_IN_MY_DAY, isInMyDay)
+            put(COLOR, color)
+            put(STATUS, status)
+            put(TIME_CREATED, timeCreated)
+        }
+    
+    companion object {
+        const val TABLE_NAME = "TASK"
+
+        const val ID = "ID"
+
+        const val LIST_ID = "LIST_ID"
+
+        const val TITLE = "TITLE"
+
+        const val DESCRIPTION = "DESCRIPTION"
+
+        const val TIME_REMINDER = "TIME_REMINDER"
+
+        const val IS_IMPORTANT = "IS_IMPORTANT"
+
+        const val IS_IN_MY_DAY = "IS_IN_MY_DAY"
+
+        const val COLOR = "COLOR"
+
+        const val STATUS = "STATUS"
+
+        const val TIME_CREATED = "TIME_CREATED"
+    }
+}
