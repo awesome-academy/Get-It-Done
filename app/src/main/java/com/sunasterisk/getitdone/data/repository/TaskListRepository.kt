@@ -9,6 +9,10 @@ class TaskListRepository private constructor(
 ) :
     TaskListDataSource.Local {
 
+    override fun getTaskListFromId(id: Int, callback: OnLoadedCallback<TaskList>) {
+        localDataSource.getTaskListFromId(id, callback)
+    }
+
     override fun getAllLists(callback: OnLoadedCallback<List<TaskList>>) {
         localDataSource.getAllLists(callback)
     }

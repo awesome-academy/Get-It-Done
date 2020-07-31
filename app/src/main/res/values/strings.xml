@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Get It Done</string>
+    <string name="fab_content_description">Add new Task button</string>
+    <string name="action_options">action_options</string>
+    <string name="menu_search">Search</string>
 </resources>

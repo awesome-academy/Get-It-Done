@@ -20,14 +20,16 @@ class TaskDAOImpl private constructor(appDatabase: AppDatabase) : TaskDAO {
             database.query(
                 Task.TABLE_NAME,
                 null,
-                Task.ID,
+                "${Task.ID} =?",
                 arrayOf(id.toString()),
                 null,
                 null,
                 null
             )
+        cursor.moveToFirst()
+        val task = getTaskFromCursor(cursor)
         cursor.close()
-        return getTaskFromCursor(cursor)
+        return task
     }
 
     override fun getCompletedTasks(): List<Task> {
@@ -35,7 +37,7 @@ class TaskDAOImpl private constructor(appDatabase: AppDatabase) : TaskDAO {
             database.query(
                 Task.TABLE_NAME,
                 null,
-                Task.STATUS,
+                "${Task.STATUS} =?",
                 arrayOf(STATUS_COMPLETED),
                 null,
                 null,
@@ -58,7 +60,7 @@ class TaskDAOImpl private constructor(appDatabase: AppDatabase) : TaskDAO {
             database.query(
                 Task.TABLE_NAME,
                 null,
-                Task.STATUS,
+                "${Task.STATUS} =?",
                 arrayOf(STATUS_NOT_COMPLETE),
                 null,
                 null,
@@ -134,7 +136,7 @@ class TaskDAOImpl private constructor(appDatabase: AppDatabase) : TaskDAO {
             database.query(
                 Task.TABLE_NAME,
                 null,
-                selection,
+                "$selection =?",
                 arrayOf(selectionArg),
                 null,
                 null,
