@@ -13,8 +13,6 @@ abstract class BaseFragment<V : BaseContract.View, P : BaseContract.Presenter<V>
     @get:LayoutRes
     protected abstract val layoutId: Int
 
-    abstract val presenter: P?
-
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
@@ -23,16 +21,8 @@ abstract class BaseFragment<V : BaseContract.View, P : BaseContract.Presenter<V>
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        presenter?.attach(this as V)
         initComponents(savedInstanceState)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        
-        presenter?.detach()
-    }
-    
     protected abstract fun initComponents(savedInstanceState: Bundle?)
 }

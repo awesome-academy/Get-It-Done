@@ -17,6 +17,6 @@ class MainActivity : BaseActivity<MainContract.View, MainPresenter>(), MainContr
         get() = MainPresenter()
     
     override fun initView(savedInstanceState: Bundle?) {
-        addFragment(R.id.container, HomeFragment.newInstance(DEFAULT_TASK_LIST_ID), HOME_TAG)
+        addFragment(R.id.frameContainer, HomeFragment.newInstance(DEFAULT_TASK_LIST_ID), HOME_TAG)
     }
 }

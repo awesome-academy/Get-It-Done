@@ -20,6 +20,8 @@ object Constants {
     const val TRUE = 1
     
     const val DEFAULT_TASK_LIST_ID = 0
+    
+    const val DATE_FORMAT = "HH:mm, dd/MM/yyyy"
 }
 
 object Database {

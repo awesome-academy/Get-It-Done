@@ -1,40 +1,22 @@
 package com.sunasterisk.getitdone.ui.home
 
+import com.sunasterisk.getitdone.R
 import com.sunasterisk.getitdone.data.OnLoadedCallback
 import com.sunasterisk.getitdone.data.model.Task
 import com.sunasterisk.getitdone.data.model.TaskList
 import com.sunasterisk.getitdone.data.repository.TaskListRepository
 import com.sunasterisk.getitdone.data.repository.TaskRepository
-import com.sunasterisk.getitdone.data.source.local.TaskListLocalDataSource
-import com.sunasterisk.getitdone.data.source.local.TaskLocalDataSource
-import com.sunasterisk.getitdone.data.source.local.dao.TaskDAOImpl
-import com.sunasterisk.getitdone.data.source.local.dao.TaskListDAOImpl
-import com.sunasterisk.getitdone.data.source.local.database.AppDatabase
-import java.lang.Exception
+import com.sunasterisk.getitdone.utils.Constants
 
-class HomePresenter private constructor() : HomeContract.Presenter {
+class HomePresenter(
+    private val taskListRepository: TaskListRepository,
+    private val taskRepository: TaskRepository
+) : HomeContract.Presenter {
 
     private var view: HomeContract.View? = null
 
-    private lateinit var taskListRepository: TaskListRepository
-    private lateinit var taskRepository: TaskRepository
-
     override fun attach(view: HomeContract.View) {
         this.view = view
-
-        val database = AppDatabase.getInstance(view.getParentContext())
-
-        taskListRepository = TaskListRepository.getInstance(
-            TaskListLocalDataSource.getInstance(
-                TaskListDAOImpl.getInstance(database)
-            )
-        )
-
-        taskRepository = TaskRepository.getInstance(
-            TaskLocalDataSource.getInstance(
-                TaskDAOImpl.getInstance(database)
-            )
-        )
     }
 
     override fun detach() {
@@ -48,7 +30,7 @@ class HomePresenter private constructor() : HomeContract.Presenter {
             }
 
             override fun onFailure(exception: Exception) {
-                view?.handleException(exception)
+                view?.displayMessage(exception.toString())
             }
         })
     }
@@ -56,19 +38,36 @@ class HomePresenter private constructor() : HomeContract.Presenter {
     override fun getTasksFromTaskListId(listId: Int) {
         taskRepository.getAllTasksByListId(listId, object : OnLoadedCallback<List<Task>> {
             override fun onSuccess(data: List<Task>) {
-                view?.handleLoadedTasks(data)
+                val unCompleteTasks = mutableListOf<Task>()
+                val completedTasks = mutableListOf<Task>()
+                for (task in data) {
+                    if (task.status == Constants.STATUS_NOT_COMPLETE) {
+                        unCompleteTasks.add(task)
+                    } else {
+                        completedTasks.add(task)
+                    }
+                }
+                view?.handleLoadedUnCompletedTasks(unCompleteTasks)
+                view?.handleLoadedCompletedTasks(completedTasks)
             }
 
             override fun onFailure(exception: Exception) {
-                view?.handleException(exception)
+                view?.displayMessage(exception.toString())
             }
         })
     }
 
-    companion object {
-        private var instance: HomePresenter? = null
+    override fun updateTask(task: Task) {
+        taskRepository.updateTask(task, object : OnLoadedCallback<Boolean> {
+            override fun onSuccess(data: Boolean) {
+                val message =
+                    if (data) R.string.msg_update_task_successfully else R.string.msg_update_task_fail
+                view?.displayMessage(message)
+            }
 
-        fun getInstance(): HomePresenter =
-            instance ?: HomePresenter().also { instance = it }
+            override fun onFailure(exception: Exception) {
+                view?.displayMessage(exception.toString())
+            }
+        })
     }
 }

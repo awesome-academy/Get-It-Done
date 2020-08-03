@@ -7,7 +7,7 @@
     tools:context=".ui.main.MainActivity">
 
     <FrameLayout
-        android:id="@+id/container"
+        android:id="@+id/frameContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="?attr/actionBarSize" />
@@ -30,7 +30,7 @@
         android:id="@+id/fabAddNewTask"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:contentDescription="@string/fab_content_description"
+        android:contentDescription="@string/description_fab_content"
         android:elevation="@dimen/dp_6"
         android:translationZ="@dimen/dp_4"
         app:backgroundTint="@color/colorAccent"
