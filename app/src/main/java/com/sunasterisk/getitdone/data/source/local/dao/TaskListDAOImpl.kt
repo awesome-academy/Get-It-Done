@@ -8,6 +8,23 @@ class TaskListDAOImpl private constructor(appDatabase: AppDatabase) : TaskListDA
 
     private val database = appDatabase.writableDatabase
 
+    override fun getTaskListFromId(id: Int): TaskList {
+        val cursor =
+            database.query(
+                TaskList.TABLE_NAME,
+                null,
+                "${TaskList.ID} =?",
+                arrayOf(id.toString()),
+                null,
+                null,
+                null
+            )
+        cursor.moveToFirst()
+        val taskList = getTaskListFromCursor(cursor)
+        cursor.close()
+        return taskList
+    }
+
     override fun getAllLists(): List<TaskList> {
         val cursor =
             database.query(TaskList.TABLE_NAME, null, null, null, null, null, null)

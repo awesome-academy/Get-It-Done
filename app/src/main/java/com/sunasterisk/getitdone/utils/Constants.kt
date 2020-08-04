@@ -18,6 +18,8 @@ object Constants {
     const val COLOR_PURPLE = "#673AB7"
 
     const val TRUE = 1
+    
+    const val DEFAULT_TASK_LIST_ID = 0
 }
 
 object Database {

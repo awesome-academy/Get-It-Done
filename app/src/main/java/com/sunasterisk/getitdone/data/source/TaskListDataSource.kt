@@ -6,6 +6,8 @@ import com.sunasterisk.getitdone.data.model.TaskList
 interface TaskListDataSource {
     interface Local {
 
+        fun getTaskListFromId(id: Int, callback: OnLoadedCallback<TaskList>)
+
         fun getAllLists(callback: OnLoadedCallback<List<TaskList>>)
 
         fun addNewList(list: TaskList, callback: OnLoadedCallback<Boolean>)
