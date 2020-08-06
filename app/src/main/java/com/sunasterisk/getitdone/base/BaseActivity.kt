@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 
 abstract class BaseActivity<V : BaseContract.View, P : BaseContract.Presenter<V>> :
-        AppCompatActivity(), BaseContract.View {
+    AppCompatActivity(), BaseContract.View {
 
     @get:LayoutRes
     protected abstract val layoutRes: Int
@@ -32,11 +32,4 @@ abstract class BaseActivity<V : BaseContract.View, P : BaseContract.Presenter<V>
     }
 
     abstract fun initView(savedInstanceState: Bundle?)
-
-    fun addFragment(containerId: Int, fragment: Fragment, tag: String?) {
-        supportFragmentManager
-                .beginTransaction()
-                .add(containerId, fragment, tag)
-                .commit()
-    }
 }

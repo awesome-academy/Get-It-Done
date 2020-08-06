@@ -17,9 +17,9 @@ class TaskListLocalDataSource private constructor(
     }
 
     override fun getAllLists(callback: OnLoadedCallback<List<TaskList>>) {
-        LoadingAsyncTask<Void, List<TaskList>>(callback) {
+        LoadingAsyncTask<Unit, List<TaskList>>(callback) {
             taskListDAO.getAllLists()
-        }.execute()
+        }.execute(Unit)
     }
 
     override fun addNewList(list: TaskList, callback: OnLoadedCallback<Boolean>) {

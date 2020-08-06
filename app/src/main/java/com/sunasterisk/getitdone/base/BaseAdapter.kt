@@ -6,7 +6,7 @@ abstract class BaseAdapter<T, V : BaseViewHolder<T>> : RecyclerView.Adapter<V>()
 
     abstract var items: MutableList<T>
 
-    abstract var clickItemListener: (Int) -> Unit
+    abstract var clickItemListener: (T) -> Unit
 
     override fun getItemCount(): Int = items.size
 

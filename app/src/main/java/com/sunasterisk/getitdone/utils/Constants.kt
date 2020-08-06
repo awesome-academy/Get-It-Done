@@ -18,10 +18,14 @@ object Constants {
     const val COLOR_PURPLE = "#673AB7"
 
     const val TRUE = 1
-    
+
     const val DEFAULT_TASK_LIST_ID = 0
-    
+
     const val DATE_FORMAT = "HH:mm, dd/MM/yyyy"
+
+    const val REQUEST_KEY_UPDATE_TASK = "UPDATE_TASK"
+    const val REQUEST_KEY_DELETE_TASK = "DELETE_TASK"
+    const val BUNDLE_TASK = "TASK"
 }
 
 object Database {
