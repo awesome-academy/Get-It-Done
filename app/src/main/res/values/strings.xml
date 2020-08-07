@@ -1,6 +1,15 @@
 <resources>
     <string name="app_name">Get It Done</string>
-    <string name="fab_content_description">Add new Task button</string>
+    <string name="description_fab_content">Add new Task button</string>
     <string name="action_options">action_options</string>
-    <string name="menu_search">Search</string>
+    <string name="text_today">Today</string>
+    <string name="text_tomorrow">Tomorrow</string>
+    <string name="text_yesterday">Yesterday</string>
+    <string name="text_days_ago">days ago</string>
+    <string name="text_one_week_ago">1 week ago</string>
+    <string name="text_weeks_ago">weeks ago</string>
+    <string name="title_menu_search">Search</string>
+    <string name="msg_update_task_successfully">Update task successful</string>
+    <string name="msg_update_task_fail">Update task fail</string>
+    <string name="msg_completed_task_title">Completed tasks</string>
 </resources>

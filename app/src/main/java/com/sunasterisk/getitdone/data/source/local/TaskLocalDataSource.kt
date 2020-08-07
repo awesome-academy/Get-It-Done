@@ -6,7 +6,9 @@ import com.sunasterisk.getitdone.data.model.Task
 import com.sunasterisk.getitdone.data.source.TaskDataSource
 import com.sunasterisk.getitdone.data.source.local.dao.TaskDAO
 
-class TaskLocalDataSource private constructor(private val taskDAO: TaskDAO) : TaskDataSource.Local {
+class TaskLocalDataSource private constructor(
+    private val taskDAO: TaskDAO
+) : TaskDataSource.Local {
 
     override fun getAllTasksByListId(listId: Int, callback: OnLoadedCallback<List<Task>>) {
         LoadingAsyncTask<Int, List<Task>>(callback) {

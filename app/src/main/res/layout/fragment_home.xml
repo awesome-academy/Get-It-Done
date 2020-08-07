@@ -15,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerUnCompletedTasks"
+        android:id="@+id/recyclerViewTasksUnComplete"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -32,7 +32,7 @@
         android:background="@android:color/darker_gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerUnCompletedTasks" />
+        app:layout_constraintTop_toBottomOf="@+id/recyclerViewTasksUnComplete" />
 
     <TextView
         android:id="@+id/textCompletedTitle"
@@ -41,13 +41,13 @@
         android:layout_marginStart="@dimen/dp_15"
         android:layout_marginTop="@dimen/dp_5"
         android:layout_marginBottom="@dimen/dp_5"
-        android:textColor="@color/black"
+        android:textColor="@android:color/black"
         android:textSize="@dimen/sp_18"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/separator" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerCompletedTasks"
+        android:id="@+id/recyclerViewTasksCompleted"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
