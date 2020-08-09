@@ -6,6 +6,7 @@ import com.sunasterisk.getitdone.data.model.Task
 class HomeContract {
     interface View : BaseContract.View {
         fun setToolBarTitle(title: String)
+        fun setToolBarTitle(stringId: Int)
         fun displayMessage(stringId: Int)
         fun displayMessage(message: String)
         fun showLoadedUnCompletedTasks(tasks: List<Task>)

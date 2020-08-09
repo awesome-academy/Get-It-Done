@@ -1,11 +1,12 @@
 package com.sunasterisk.getitdone.utils
 
 import com.sunasterisk.getitdone.utils.Constants.DATE_FORMAT
+import com.sunasterisk.getitdone.utils.Constants.DAY_FORMAT
 import java.text.SimpleDateFormat
 import java.util.*
 
-fun Date.formatToString(): String {
-    return SimpleDateFormat(DATE_FORMAT, Locale.getDefault()).format(this)
+fun Date.formatToString(format: String = DATE_FORMAT): String {
+    return SimpleDateFormat(format, Locale.getDefault()).format(this)
 }
 
 fun Date.dateDiff(other: Date): Int {
@@ -17,6 +18,6 @@ fun Date.dateDiff(other: Date): Int {
 }
 
 fun Date.isTheSameDay(other: Date): Boolean {
-    val sdf = SimpleDateFormat("yyyyMMdd", Locale.getDefault())
+    val sdf = SimpleDateFormat(DAY_FORMAT, Locale.getDefault())
     return sdf.format(this) == sdf.format(other)
 }

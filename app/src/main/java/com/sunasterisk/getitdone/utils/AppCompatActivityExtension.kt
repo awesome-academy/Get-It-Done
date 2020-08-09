@@ -18,6 +18,13 @@ fun AppCompatActivity.addFragment(containerId: Int, fragment: Fragment, name: St
         .commit()
 }
 
-fun AppCompatActivity.popFragment(){
+fun AppCompatActivity.replaceFragment(containerId: Int, fragment: Fragment) {
+    supportFragmentManager
+        .beginTransaction()
+        .replace(containerId, fragment)
+        .commit()
+}
+
+fun AppCompatActivity.popFragment() {
     supportFragmentManager.popBackStack()
 }

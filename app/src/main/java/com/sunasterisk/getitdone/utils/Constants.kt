@@ -2,6 +2,8 @@ package com.sunasterisk.getitdone.utils
 
 import com.sunasterisk.getitdone.data.model.Task
 import com.sunasterisk.getitdone.data.model.TaskList
+import com.sunasterisk.getitdone.utils.Constants.DEFAULT_TASK_LIST_ID
+import com.sunasterisk.getitdone.utils.Constants.DEFAULT_TASK_LIST_TITLE
 
 object Constants {
     const val DEFAULT_ID = -1
@@ -20,12 +22,17 @@ object Constants {
     const val TRUE = 1
 
     const val DEFAULT_TASK_LIST_ID = 0
+    const val DEFAULT_TASK_LIST_TITLE = "My tasks"
 
-    const val DATE_FORMAT = "HH:mm, dd/MM/yyyy"
+    const val DATE_FORMAT = "HH:mm, EEE, dd/MM/yyyy"
+    const val DAY_FORMAT = "yyyyMMdd"
 
     const val REQUEST_KEY_UPDATE_TASK = "UPDATE_TASK"
     const val REQUEST_KEY_DELETE_TASK = "DELETE_TASK"
     const val BUNDLE_TASK = "TASK"
+
+    const val TASK_LIST_MY_DAY_ID = -1
+    const val TASK_LIST_IMPORTANT_ID = -2
 }
 
 object Database {
@@ -43,7 +50,7 @@ object Database {
             "${Task.DESCRIPTION} TEXT, " +
             "${Task.TIME_REMINDER} TEXT, " +
             "${Task.IS_IMPORTANT} TEXT, " +
-            "${Task.IS_IN_MY_DAY} TEXT, " +
+            "${Task.IN_MY_DAY} TEXT, " +
             "${Task.COLOR} TEXT, " +
             "${Task.STATUS} TEXT, " +
             "${Task.TIME_CREATED} TEXT)"
@@ -52,4 +59,6 @@ object Database {
 
     const val SQL_DROP_TABLE_TASK = "DROP TABLE IF EXITS TASK"
 
+    const val SQL_CREATE_DEFAULT_TASK_LIST = "INSERT INTO ${TaskList.TABLE_NAME} VALUES (" +
+            "$DEFAULT_TASK_LIST_ID, '$DEFAULT_TASK_LIST_TITLE');"
 }

@@ -12,6 +12,7 @@ class AppDatabase private constructor(context: Context, dbName: String, version:
         db.run {
             execSQL(Database.SQL_CREATE_TABLE_LIST)
             execSQL(Database.SQL_CREATE_TABLE_TASK)
+            execSQL(Database.SQL_CREATE_DEFAULT_TASK_LIST)
         }
     }
 
