@@ -9,24 +9,28 @@ import com.sunasterisk.getitdone.data.model.Task
 import com.sunasterisk.getitdone.ui.detail.DetailFragment
 import com.sunasterisk.getitdone.ui.detail.DetailFragment.Companion.DETAIL_TAG
 import com.sunasterisk.getitdone.ui.home.HomeFragment
+import com.sunasterisk.getitdone.ui.taskList.TaskListFragment
+import com.sunasterisk.getitdone.ui.taskList.TaskListFragment.Companion.TASK_LIST_TAG
 import com.sunasterisk.getitdone.utils.Constants.DEFAULT_TASK_LIST_ID
 import com.sunasterisk.getitdone.utils.addFragment
-import com.sunasterisk.getitdone.utils.popFragment
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity<MainContract.View, MainPresenter>(), MainContract.View,
     HomeFragment.OnItemTaskClickCallBack {
 
-    override val layoutRes: Int
-        get() = R.layout.activity_main
-    override val styleRes: Int
-        get() = R.style.AppTheme
-    override val presenter: MainPresenter
-        get() = MainPresenter()
+    override val layoutRes get() = R.layout.activity_main
+    override val styleRes get() = R.style.AppTheme
+    override val presenter get() = MainPresenter()
+
+    private var taskListId = DEFAULT_TASK_LIST_ID
 
     override fun initView(savedInstanceState: Bundle?) {
-        val homeFragment = HomeFragment.newInstance(DEFAULT_TASK_LIST_ID)
+        val homeFragment = HomeFragment.newInstance(taskListId)
         homeFragment.setOnTaskSelectedListener(this)
         addFragment(R.id.frameContainer, homeFragment)
+        setSupportActionBar(bottomBar)
+
+        setUpBottomBar()
     }
 
     override fun onItemTaskClick(task: Task) {
@@ -40,5 +44,26 @@ class MainActivity : BaseActivity<MainContract.View, MainPresenter>(), MainContr
         }
         if (fragments.size == 1)
             super.onBackPressed()
+    }
+
+    private fun setUpBottomBar(){
+        bottomBar.setNavigationOnClickListener { navigateTaskLists() }
+        bottomBar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.app_bar_settings -> {
+                    openSettings()
+                    true
+                }
+                else -> false
+            }
+        }
+    }
+    
+    private fun navigateTaskLists() {
+        val taskListFragment = TaskListFragment.newInstance(taskListId)
+        taskListFragment.show(supportFragmentManager, TASK_LIST_TAG)
+    }
+
+    private fun openSettings() {
     }
 }

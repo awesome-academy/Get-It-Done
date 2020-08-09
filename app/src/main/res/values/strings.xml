@@ -19,4 +19,7 @@
     <string name="title_add_time_reminder">Add time reminder</string>
     <string name="description_text_add_more_information">Add some more detail information</string>
     <string name="text_add_task_title">Enter task\'s title</string>
+    <string name="text_my_day">My Day</string>
+    <string name="text_important">Important</string>
+    <string name="text_add_new_task_list">Add new Task List</string>
 </resources>
