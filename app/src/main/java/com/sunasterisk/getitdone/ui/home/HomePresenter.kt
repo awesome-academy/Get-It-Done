@@ -79,6 +79,18 @@ class HomePresenter(
         }
     }
 
+    override fun getTaskFromId(id: Int) {
+        taskRepository.getTaskById(id, object : OnLoadedCallback<Task> {
+            override fun onSuccess(data: Task) {
+                view?.showInsertedTask(data)
+            }
+
+            override fun onFailure(exception: Exception) {
+                view?.displayMessage(exception.message.toString())
+            }
+        })
+    }
+
     override fun updateTask(task: Task) {
         taskRepository.updateTask(task, object : OnLoadedCallback<Boolean> {
             override fun onSuccess(data: Boolean) {

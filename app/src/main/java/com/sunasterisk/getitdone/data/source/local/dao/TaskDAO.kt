@@ -18,7 +18,7 @@ interface TaskDAO {
 
     fun getImportantTasks(): List<Task>
 
-    fun addNewTask(task: Task): Boolean
+    fun addNewTask(task: Task): Long
 
     fun updateTask(task: Task): Boolean
 

@@ -30,8 +30,13 @@ abstract class BaseAdapter<T, V : BaseViewHolder<T>> : RecyclerView.Adapter<V>()
         items.removeAt(position)
         notifyItemRemoved(position)
     }
-    
-    fun updateItem(item: T){
+
+    fun removeItemAt(position: Int) {
+        items.removeAt(position)
+        notifyItemRemoved(position)
+    }
+
+    fun updateItem(item: T) {
         notifyItemChanged(items.indexOf(item))
     }
 }
