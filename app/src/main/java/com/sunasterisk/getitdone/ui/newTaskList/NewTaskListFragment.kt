@@ -93,6 +93,6 @@ class NewTaskListFragment : BaseFragment<NewTaskListContract.View, NewTaskListPr
     }
 
     companion object {
-        const val NEW_TASK_LIST_TAG = "TASK_LIST_FRAGMENT"
+        const val NEW_TASK_LIST_TAG = "NEW_TASK_LIST_FRAGMENT"
     }
 }
