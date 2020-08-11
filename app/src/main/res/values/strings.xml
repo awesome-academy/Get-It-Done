@@ -11,5 +11,12 @@
     <string name="title_menu_search">Search</string>
     <string name="msg_update_task_successfully">Update task successful</string>
     <string name="msg_update_task_fail">Update task fail</string>
+    <string name="msg_delete_task_successfully">Delete task successful</string>
+    <string name="msg_delete_task_fail">Delete task fail</string>
     <string name="msg_completed_task_title">Completed tasks</string>
+    <string name="title_add_to_my_day">Add to My Day</string>
+    <string name="title_added_to_my_day">Added to My Day</string>
+    <string name="title_add_time_reminder">Add time reminder</string>
+    <string name="description_text_add_more_information">Add some more detail information</string>
+    <string name="text_add_task_title">Enter task\'s title</string>
 </resources>

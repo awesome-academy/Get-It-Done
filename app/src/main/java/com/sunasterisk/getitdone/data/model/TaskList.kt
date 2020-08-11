@@ -23,6 +23,8 @@ data class TaskList(
         ContentValues().apply {
             put(TITLE, title)
         }
+
+    override fun toString(): String = title
     
     companion object {
         const val TABLE_NAME = "LIST"

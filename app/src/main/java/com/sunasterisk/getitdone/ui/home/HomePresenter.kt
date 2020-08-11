@@ -47,8 +47,8 @@ class HomePresenter(
                         completedTasks.add(task)
                     }
                 }
-                view?.handleLoadedUnCompletedTasks(unCompleteTasks)
-                view?.handleLoadedCompletedTasks(completedTasks)
+                view?.showLoadedUnCompletedTasks(unCompleteTasks)
+                view?.showLoadedCompletedTasks(completedTasks)
             }
 
             override fun onFailure(exception: Exception) {

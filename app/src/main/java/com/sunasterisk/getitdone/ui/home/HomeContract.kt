@@ -8,8 +8,8 @@ class HomeContract {
         fun setToolBarTitle(title: String)
         fun displayMessage(stringId: Int)
         fun displayMessage(message: String)
-        fun handleLoadedUnCompletedTasks(tasks: List<Task>)
-        fun handleLoadedCompletedTasks(tasks: List<Task>)
+        fun showLoadedUnCompletedTasks(tasks: List<Task>)
+        fun showLoadedCompletedTasks(tasks: List<Task>)
     }
 
     interface Presenter : BaseContract.Presenter<View> {

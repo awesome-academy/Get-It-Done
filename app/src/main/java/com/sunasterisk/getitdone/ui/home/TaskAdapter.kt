@@ -20,7 +20,7 @@ class TaskAdapter : BaseAdapter<Task, TaskAdapter.TaskViewHolder>() {
     override var items = mutableListOf<Task>()
     var onCheckboxClickListener: (Task) -> Unit = { _ -> }
     var onImportantClickListener: (Task) -> Unit = { _ -> }
-    override var clickItemListener: (Int) -> Unit = { _ -> }
+    override var clickItemListener: (Task) -> Unit = { _ -> }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         TaskViewHolder(
@@ -32,7 +32,7 @@ class TaskAdapter : BaseAdapter<Task, TaskAdapter.TaskViewHolder>() {
         itemView: View,
         var onCheckboxClickListener: (Task) -> Unit,
         var onImportantClickListener: (Task) -> Unit,
-        override var clickItemListener: (Int) -> Unit
+        override var clickItemListener: (Task) -> Unit
     ) : BaseViewHolder<Task>(itemView) {
 
         override fun bindData(item: Task) {
