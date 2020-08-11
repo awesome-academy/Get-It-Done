@@ -10,7 +10,7 @@ interface TaskListDataSource {
 
         fun getAllLists(callback: OnLoadedCallback<List<TaskList>>)
 
-        fun addNewList(list: TaskList, callback: OnLoadedCallback<Boolean>)
+        fun addNewList(list: TaskList, callback: OnLoadedCallback<Long>)
 
         fun changeListTitle(list: TaskList, callback: OnLoadedCallback<Boolean>)
 

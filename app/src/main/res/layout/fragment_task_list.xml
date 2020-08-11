@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/navigation_view_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     app:behavior_hideable="true"
     app:layout_behavior="@string/bottom_sheet_behavior">
 
@@ -17,10 +18,7 @@
         android:drawableTint="@color/colorAccent"
         android:gravity="center_vertical"
         android:text="@string/text_my_day"
-        android:textSize="@dimen/sp_18"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textSize="@dimen/sp_18" />
 
     <TextView
         android:id="@+id/textImportant"
@@ -31,37 +29,26 @@
         android:drawablePadding="@dimen/dp_15"
         android:gravity="center_vertical"
         android:text="@string/text_important"
-        android:textSize="@dimen/sp_18"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textMyDay" />
+        android:textSize="@dimen/sp_18" />
 
     <View
         android:id="@+id/separator"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/px_1"
-        android:background="@android:color/darker_gray"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textImportant" />
+        android:background="@android:color/darker_gray" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewTaskLists"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/separator" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
     <View
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/px_1"
-        android:background="@android:color/darker_gray"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/recyclerViewTaskLists" />
-    
+        android:background="@android:color/darker_gray" />
+
     <TextView
         android:id="@+id/textAddNewTaskList"
         android:layout_width="match_parent"
@@ -72,9 +59,5 @@
         android:drawableTint="@color/colorAccent"
         android:gravity="center_vertical"
         android:text="@string/text_add_new_task_list"
-        android:textSize="@dimen/sp_18"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/recyclerViewTaskLists" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:textSize="@dimen/sp_18" />
+</LinearLayout>

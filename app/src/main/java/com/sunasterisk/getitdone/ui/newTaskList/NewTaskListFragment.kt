@@ -5,6 +5,7 @@ import android.transition.TransitionInflater
 import androidx.appcompat.app.AppCompatActivity
 import com.sunasterisk.getitdone.R
 import com.sunasterisk.getitdone.base.BaseFragment
+import com.sunasterisk.getitdone.data.model.TaskList
 import com.sunasterisk.getitdone.data.repository.TaskListRepository
 import com.sunasterisk.getitdone.data.source.local.TaskListLocalDataSource
 import com.sunasterisk.getitdone.data.source.local.dao.TaskListDAOImpl
@@ -20,6 +21,8 @@ class NewTaskListFragment : BaseFragment<NewTaskListContract.View, NewTaskListPr
 
     private var presenter: NewTaskListPresenter? = null
 
+    private var callback: OnNewTaskListCreated? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enterTransition =
@@ -27,8 +30,12 @@ class NewTaskListFragment : BaseFragment<NewTaskListContract.View, NewTaskListPr
     }
 
     override fun initComponents(savedInstanceState: Bundle?) {
-        initPresenter()
+        iniPresenter()
         initListener()
+    }
+
+    override fun onNewTaskListCreated(id: Long) {
+        callback?.onNewTaskListCreated(id.toInt())
     }
 
     override fun displayMessage(message: String) {
@@ -39,11 +46,19 @@ class NewTaskListFragment : BaseFragment<NewTaskListContract.View, NewTaskListPr
         context?.run { toast(getString(stringId)) }
     }
 
+    override fun popFragment() {
+        onBackPressed()
+    }
+
     override fun onBackPressed() {
         (context as AppCompatActivity).popFragment()
     }
 
-    private fun initPresenter() {
+    fun setOnNewTaskListCreatedListener(callback: OnNewTaskListCreated) {
+        this.callback = callback
+    }
+
+    private fun iniPresenter(){
         context?.let {
             val database = AppDatabase.getInstance(it)
 
@@ -58,13 +73,23 @@ class NewTaskListFragment : BaseFragment<NewTaskListContract.View, NewTaskListPr
             }
         }
     }
-
-    private fun initListener() {
+    
+    private fun initListener(){
         btnClose.setOnClickListener { onBackPressed() }
         btnDone.setOnClickListener { onSaveTaskList() }
     }
-
+    
     private fun onSaveTaskList() {
+        val inputTextTitle = editTextTitle.text.toString()
+        if (inputTextTitle.isBlank()) {
+            context?.run { toast(getString(R.string.msg_title_empty)) }
+        } else {
+            presenter?.addNewTaskList(TaskList(title = inputTextTitle))
+        }
+    }
+
+    interface OnNewTaskListCreated {
+        fun onNewTaskListCreated(id: Int)
     }
 
     companion object {

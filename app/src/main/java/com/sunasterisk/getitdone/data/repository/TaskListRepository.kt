@@ -17,7 +17,7 @@ class TaskListRepository private constructor(
         localDataSource.getAllLists(callback)
     }
 
-    override fun addNewList(list: TaskList, callback: OnLoadedCallback<Boolean>) {
+    override fun addNewList(list: TaskList, callback: OnLoadedCallback<Long>) {
         localDataSource.addNewList(list, callback)
     }
 

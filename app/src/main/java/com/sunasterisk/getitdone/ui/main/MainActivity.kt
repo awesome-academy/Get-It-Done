@@ -19,7 +19,8 @@ import com.sunasterisk.getitdone.utils.replaceFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity<MainContract.View, MainPresenter>(), MainContract.View,
-    HomeFragment.OnItemTaskClickCallBack, TaskListFragment.OnItemTaskListClickCallBack {
+    HomeFragment.OnItemTaskClickCallBack, TaskListFragment.OnItemTaskListClickCallBack,
+    NewTaskListFragment.OnNewTaskListCreated {
 
     override val layoutRes get() = R.layout.activity_main
     override val styleRes get() = R.style.AppTheme
@@ -52,8 +53,15 @@ class MainActivity : BaseActivity<MainContract.View, MainPresenter>(), MainContr
         initHomeFragment()
     }
 
+    override fun onNewTaskListCreated(id: Int) {
+        taskListId = id
+        initHomeFragment()
+    }
+
     override fun onAddNewTaskList() {
-        addFragment(R.id.frameContainer, NewTaskListFragment(), NEW_TASK_LIST_TAG)
+        val addNewTaskListFragment = NewTaskListFragment()
+        addNewTaskListFragment.setOnNewTaskListCreatedListener(this)
+        addFragment(R.id.frameContainer, addNewTaskListFragment, NEW_TASK_LIST_TAG)
     }
 
     override fun onBackPressed() {

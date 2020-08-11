@@ -8,7 +8,7 @@ interface TaskListDAO {
     
     fun getAllLists(): List<TaskList>
 
-    fun addNewList(list: TaskList): Boolean
+    fun addNewList(list: TaskList): Long
 
     fun changeListTitle(list: TaskList): Boolean
 

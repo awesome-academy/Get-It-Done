@@ -20,15 +20,19 @@ class NewTaskListPresenter(private val taskListRepository: TaskListRepository) :
     }
 
     override fun addNewTaskList(taskList: TaskList) {
-        taskListRepository.addNewList(taskList, object : OnLoadedCallback<Boolean> {
-            override fun onSuccess(data: Boolean) {
-                val message =
-                    if (data) R.string.msg_add_new_list_successfully else R.string.msg_add_new_list_fail
-                view?.displayMessage(message)
+        taskListRepository.addNewList(taskList, object : OnLoadedCallback<Long> {
+            override fun onSuccess(data: Long) {
+                if (data > 0) {
+                    view?.onNewTaskListCreated(data)
+                } else {
+                    view?.displayMessage(R.string.msg_add_new_list_fail)
+                }
+                view?.popFragment()
             }
 
             override fun onFailure(exception: Exception) {
                 view?.displayMessage(exception.toString())
+                view?.popFragment()
             }
         })
     }
