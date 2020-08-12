@@ -14,7 +14,7 @@ interface TaskDAO {
 
     fun searchTasksByTitle(title: String): List<Task>
 
-    fun getTaskInMyDay(): List<Task>
+    fun getTaskInMyDay(today: String): List<Task>
 
     fun getImportantTasks(): List<Task>
 

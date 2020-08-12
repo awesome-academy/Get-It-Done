@@ -12,7 +12,7 @@ interface TaskDataSource {
 
         fun searchTasksByTitle(title: String, callback: OnLoadedCallback<List<Task>>)
 
-        fun getTaskInMyDay(callback: OnLoadedCallback<List<Task>>)
+        fun getTaskInMyDay(today:String, callback: OnLoadedCallback<List<Task>>)
 
         fun getImportantTasks(callback: OnLoadedCallback<List<Task>>)
 

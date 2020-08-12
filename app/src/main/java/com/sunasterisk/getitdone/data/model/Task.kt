@@ -3,13 +3,15 @@ package com.sunasterisk.getitdone.data.model
 import android.content.ContentValues
 import android.database.Cursor
 import android.os.Parcelable
+import com.sunasterisk.getitdone.utils.Constants.DAY_FORMAT
 import com.sunasterisk.getitdone.utils.Constants.DEFAULT_COLOR
 import com.sunasterisk.getitdone.utils.Constants.DEFAULT_ID
 import com.sunasterisk.getitdone.utils.Constants.EMPTY_STRING
 import com.sunasterisk.getitdone.utils.Constants.STATUS_NOT_COMPLETE
 import com.sunasterisk.getitdone.utils.Constants.TRUE
-import com.sunasterisk.getitdone.utils.Database
+import com.sunasterisk.getitdone.utils.formatToString
 import kotlinx.android.parcel.Parcelize
+import java.util.*
 
 @Parcelize
 data class Task(
@@ -19,7 +21,7 @@ data class Task(
     var description: String = EMPTY_STRING,
     var timeReminder: String = EMPTY_STRING,
     var isImportant: Boolean = false,
-    var isInMyDay: Boolean = false,
+    var inMyDay: String = EMPTY_STRING,
     var color: String = DEFAULT_COLOR,
     var status: String = STATUS_NOT_COMPLETE,
     var timeCreated: String = EMPTY_STRING
@@ -31,7 +33,7 @@ data class Task(
         cursor.getString(cursor.getColumnIndex(DESCRIPTION)),
         cursor.getString(cursor.getColumnIndex(TIME_REMINDER)),
         cursor.getInt(cursor.getColumnIndex(IS_IMPORTANT)) == TRUE,
-        cursor.getInt(cursor.getColumnIndex(IS_IN_MY_DAY)) == TRUE,
+        cursor.getString(cursor.getColumnIndex(IN_MY_DAY)),
         cursor.getString(cursor.getColumnIndex(COLOR)),
         cursor.getString(cursor.getColumnIndex(STATUS)),
         cursor.getString(cursor.getColumnIndex(TIME_CREATED))
@@ -44,12 +46,14 @@ data class Task(
             put(DESCRIPTION, description)
             put(TIME_REMINDER, timeReminder)
             put(IS_IMPORTANT, isImportant)
-            put(IS_IN_MY_DAY, isInMyDay)
+            put(IN_MY_DAY, inMyDay)
             put(COLOR, color)
             put(STATUS, status)
             put(TIME_CREATED, timeCreated)
         }
-    
+
+    fun isInMyDay() = inMyDay == Date().formatToString(DAY_FORMAT)
+
     companion object {
         const val TABLE_NAME = "TASK"
 
@@ -65,7 +69,7 @@ data class Task(
 
         const val IS_IMPORTANT = "IS_IMPORTANT"
 
-        const val IS_IN_MY_DAY = "IS_IN_MY_DAY"
+        const val IN_MY_DAY = "IN_MY_DAY"
 
         const val COLOR = "COLOR"
 

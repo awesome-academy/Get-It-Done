@@ -7,6 +7,9 @@ import com.sunasterisk.getitdone.data.model.TaskList
 import com.sunasterisk.getitdone.data.repository.TaskListRepository
 import com.sunasterisk.getitdone.data.repository.TaskRepository
 import com.sunasterisk.getitdone.utils.Constants
+import com.sunasterisk.getitdone.utils.Constants.DAY_FORMAT
+import com.sunasterisk.getitdone.utils.formatToString
+import java.util.*
 
 class HomePresenter(
     private val taskListRepository: TaskListRepository,
@@ -24,19 +27,30 @@ class HomePresenter(
     }
 
     override fun getTaskListFromId(id: Int) {
-        taskListRepository.getTaskListFromId(id, object : OnLoadedCallback<TaskList> {
-            override fun onSuccess(data: TaskList) {
-                view?.setToolBarTitle(data.title)
+        when (id) {
+            Constants.TASK_LIST_MY_DAY_ID -> {
+                view?.setToolBarTitle(R.string.text_my_day)
             }
 
-            override fun onFailure(exception: Exception) {
-                view?.displayMessage(exception.toString())
+            Constants.TASK_LIST_IMPORTANT_ID -> {
+                view?.setToolBarTitle(R.string.text_important)
             }
-        })
+            else -> {
+                taskListRepository.getTaskListFromId(id, object : OnLoadedCallback<TaskList> {
+                    override fun onSuccess(data: TaskList) {
+                        view?.setToolBarTitle(data.title)
+                    }
+
+                    override fun onFailure(exception: Exception) {
+                        view?.displayMessage(exception.toString())
+                    }
+                })
+            }
+        }
     }
 
     override fun getTasksFromTaskListId(listId: Int) {
-        taskRepository.getAllTasksByListId(listId, object : OnLoadedCallback<List<Task>> {
+        val onLoadedCallback = object : OnLoadedCallback<List<Task>> {
             override fun onSuccess(data: List<Task>) {
                 val unCompleteTasks = mutableListOf<Task>()
                 val completedTasks = mutableListOf<Task>()
@@ -54,7 +68,15 @@ class HomePresenter(
             override fun onFailure(exception: Exception) {
                 view?.displayMessage(exception.toString())
             }
-        })
+        }
+        when (listId) {
+            Constants.TASK_LIST_MY_DAY_ID -> {
+                val todayString = Date().formatToString(DAY_FORMAT)
+                taskRepository.getTaskInMyDay(todayString, onLoadedCallback)
+            }
+            Constants.TASK_LIST_IMPORTANT_ID -> taskRepository.getImportantTasks(onLoadedCallback)
+            else -> taskRepository.getAllTasksByListId(listId, onLoadedCallback)
+        }
     }
 
     override fun updateTask(task: Task) {

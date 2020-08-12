@@ -17,6 +17,10 @@ import com.sunasterisk.getitdone.data.source.local.TaskLocalDataSource
 import com.sunasterisk.getitdone.data.source.local.dao.TaskDAOImpl
 import com.sunasterisk.getitdone.data.source.local.dao.TaskListDAOImpl
 import com.sunasterisk.getitdone.data.source.local.database.AppDatabase
+import com.sunasterisk.getitdone.utils.Constants.BUNDLE_TASK
+import com.sunasterisk.getitdone.utils.Constants.DAY_FORMAT
+import com.sunasterisk.getitdone.utils.Constants.REQUEST_KEY_DELETE_TASK
+import com.sunasterisk.getitdone.utils.Constants.REQUEST_KEY_UPDATE_TASK
 import com.sunasterisk.getitdone.utils.Constants.STATUS_COMPLETED
 import com.sunasterisk.getitdone.utils.Constants.STATUS_NOT_COMPLETE
 import com.sunasterisk.getitdone.utils.formatToString
@@ -90,7 +94,9 @@ class DetailFragment : BaseFragment<DetailContract.View, DetailPresenter>(),
             }
 
             R.id.constraintMyDay -> {
-                task?.let { it.isInMyDay = !it.isInMyDay }
+                task?.let {
+                    it.inMyDay = if (it.isInMyDay()) "" else Date().formatToString(DAY_FORMAT)
+                }
                 displayInMyDayView()
             }
 
@@ -188,7 +194,7 @@ class DetailFragment : BaseFragment<DetailContract.View, DetailPresenter>(),
         task?.let {
             var color = Color.parseColor(it.color)
             var textInMyDay = R.string.title_added_to_my_day
-            if (!it.isInMyDay) {
+            if (it.inMyDay != Date().formatToString(DAY_FORMAT)) {
                 color = Color.DKGRAY
                 textInMyDay = R.string.title_add_to_my_day
             }

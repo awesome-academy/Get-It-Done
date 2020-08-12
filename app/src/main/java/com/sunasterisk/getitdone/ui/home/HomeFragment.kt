@@ -77,6 +77,10 @@ class HomeFragment : BaseFragment<HomeContract.View, HomePresenter>(),
         toolbarHome.title = title
     }
 
+    override fun setToolBarTitle(stringId: Int) {
+        toolbarHome.title = getString(stringId)
+    }
+
     override fun displayMessage(stringId: Int) {
         context?.run { toast(getString(stringId)) }
     }

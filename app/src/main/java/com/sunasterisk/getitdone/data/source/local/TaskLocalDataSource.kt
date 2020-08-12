@@ -28,10 +28,10 @@ class TaskLocalDataSource private constructor(
         }.execute(title)
     }
 
-    override fun getTaskInMyDay(callback: OnLoadedCallback<List<Task>>) {
-        LoadingAsyncTask<Unit, List<Task>>(callback) {
-            taskDAO.getTaskInMyDay()
-        }.execute(Unit)
+    override fun getTaskInMyDay(today: String, callback: OnLoadedCallback<List<Task>>) {
+        LoadingAsyncTask<String, List<Task>>(callback) {
+            taskDAO.getTaskInMyDay(today)
+        }.execute(today)
     }
 
     override fun getImportantTasks(callback: OnLoadedCallback<List<Task>>) {

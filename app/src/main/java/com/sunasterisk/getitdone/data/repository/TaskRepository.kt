@@ -21,8 +21,8 @@ class TaskRepository private constructor(
         localDataSource.searchTasksByTitle(title, callback)
     }
 
-    override fun getTaskInMyDay(callback: OnLoadedCallback<List<Task>>) {
-        localDataSource.getTaskInMyDay(callback)
+    override fun getTaskInMyDay(today: String, callback: OnLoadedCallback<List<Task>>) {
+        localDataSource.getTaskInMyDay(today, callback)
     }
 
     override fun getImportantTasks(callback: OnLoadedCallback<List<Task>>) {

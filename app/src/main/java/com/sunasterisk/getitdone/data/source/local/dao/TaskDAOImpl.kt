@@ -82,8 +82,8 @@ class TaskDAOImpl private constructor(appDatabase: AppDatabase) : TaskDAO {
         return getTaskInSpecificCondition(Task.TITLE, title)
     }
 
-    override fun getTaskInMyDay(): List<Task> {
-        return getTaskInSpecificCondition(Task.IS_IN_MY_DAY, "$TRUE")
+    override fun getTaskInMyDay(today: String): List<Task> {
+        return getTaskInSpecificCondition(Task.IN_MY_DAY, today)
     }
 
     override fun getImportantTasks(): List<Task> {
