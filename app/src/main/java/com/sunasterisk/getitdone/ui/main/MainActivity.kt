@@ -9,6 +9,8 @@ import com.sunasterisk.getitdone.data.model.Task
 import com.sunasterisk.getitdone.ui.detail.DetailFragment
 import com.sunasterisk.getitdone.ui.detail.DetailFragment.Companion.DETAIL_TAG
 import com.sunasterisk.getitdone.ui.home.HomeFragment
+import com.sunasterisk.getitdone.ui.newTask.NewTaskFragment
+import com.sunasterisk.getitdone.ui.newTask.NewTaskFragment.Companion.NEW_TASK_TAG
 import com.sunasterisk.getitdone.ui.newTaskList.NewTaskListFragment
 import com.sunasterisk.getitdone.ui.newTaskList.NewTaskListFragment.Companion.NEW_TASK_LIST_TAG
 import com.sunasterisk.getitdone.ui.taskList.TaskListFragment
@@ -16,11 +18,10 @@ import com.sunasterisk.getitdone.ui.taskList.TaskListFragment.Companion.TASK_LIS
 import com.sunasterisk.getitdone.utils.Constants.DEFAULT_TASK_LIST_ID
 import com.sunasterisk.getitdone.utils.addFragment
 import com.sunasterisk.getitdone.utils.replaceFragment
-import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity<MainContract.View, MainPresenter>(), MainContract.View,
     HomeFragment.OnItemTaskClickCallBack, TaskListFragment.OnItemTaskListClickCallBack,
-    NewTaskListFragment.OnNewTaskListCreated {
+    NewTaskFragment.OnNewTaskCreated, NewTaskListFragment.OnNewTaskListCreated {
 
     override val layoutRes get() = R.layout.activity_main
     override val styleRes get() = R.style.AppTheme
@@ -30,27 +31,33 @@ class MainActivity : BaseActivity<MainContract.View, MainPresenter>(), MainContr
 
     override fun initView(savedInstanceState: Bundle?) {
         initHomeFragment()
-        setSupportActionBar(bottomBar)
-
-        bottomBar.setNavigationOnClickListener { navigateTaskLists() }
-        bottomBar.setOnMenuItemClickListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.app_bar_settings -> {
-                    openSettings()
-                    true
-                }
-                else -> false
-            }
-        }
     }
 
     override fun onItemTaskClick(task: Task) {
         addFragment(R.id.frameContainer, DetailFragment.newInstance(task), DETAIL_TAG)
     }
 
+    override fun onAddNewTask() {
+        val addNewTaskFragment = NewTaskFragment.newInstance(taskListId)
+        addNewTaskFragment.setOnNewTaskCreatedListener(this)
+        addNewTaskFragment.show(supportFragmentManager, NEW_TASK_TAG)
+    }
+
+    override fun navigateTaskLists() {
+        val taskListFragment = TaskListFragment.newInstance(taskListId)
+        taskListFragment.setOnTaskListSelectedListener(this)
+        taskListFragment.show(supportFragmentManager, TASK_LIST_TAG)
+    }
+
+    override fun openSettings() {
+    }
+
     override fun onItemTaskListClick(id: Int) {
         taskListId = id
         initHomeFragment()
+    }
+
+    override fun onNewTaskCreated(id: Int) {
     }
 
     override fun onNewTaskListCreated(id: Int) {
@@ -74,14 +81,5 @@ class MainActivity : BaseActivity<MainContract.View, MainPresenter>(), MainContr
         val homeFragment = HomeFragment.newInstance(taskListId)
         homeFragment.setOnTaskSelectedListener(this)
         replaceFragment(R.id.frameContainer, homeFragment)
-    }
-
-    private fun navigateTaskLists() {
-        val taskListFragment = TaskListFragment.newInstance(taskListId)
-        taskListFragment.setOnTaskListSelectedListener(this)
-        taskListFragment.show(supportFragmentManager, TASK_LIST_TAG)
-    }
-
-    private fun openSettings() {
     }
 }

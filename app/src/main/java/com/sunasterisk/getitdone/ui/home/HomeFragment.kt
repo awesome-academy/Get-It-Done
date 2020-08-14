@@ -6,6 +6,7 @@ import android.view.MenuInflater
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResultListener
+import androidx.recyclerview.widget.ConcatAdapter
 import com.sunasterisk.getitdone.R
 import com.sunasterisk.getitdone.base.BaseFragment
 import com.sunasterisk.getitdone.data.model.Task
@@ -36,6 +37,7 @@ class HomeFragment : BaseFragment<HomeContract.View, HomePresenter>(),
 
     private val taskCompletedAdapter = TaskAdapter()
     private val taskUnCompleteAdapter = TaskAdapter()
+    private val taskCompletedTaskTitleAdapter = CompletedTaskTitleAdapter()
 
     private var callback: OnItemTaskClickCallBack? = null
 
@@ -69,8 +71,8 @@ class HomeFragment : BaseFragment<HomeContract.View, HomePresenter>(),
 
     override fun initComponents(savedInstanceState: Bundle?) {
         initPresenter()
-        initUnCompletedTasks()
-        initCompletedTasks()
+        initBottomBar()
+        initAdapter()
     }
 
     override fun setToolBarTitle(title: String) {
@@ -95,7 +97,7 @@ class HomeFragment : BaseFragment<HomeContract.View, HomePresenter>(),
 
     override fun showLoadedCompletedTasks(tasks: List<Task>) {
         taskCompletedAdapter.loadItems(tasks.toMutableList())
-        updateCompletedTaskTitle()
+        taskCompletedTaskTitleAdapter.loadItems(mutableListOf(taskCompletedAdapter.items.size))
     }
 
     private fun initPresenter() {
@@ -122,20 +124,40 @@ class HomeFragment : BaseFragment<HomeContract.View, HomePresenter>(),
         }
     }
 
-    private fun initUnCompletedTasks() {
-        recyclerViewTasksUnComplete.adapter = taskUnCompleteAdapter.apply {
-            onCheckboxClickListener = { onTaskCheckboxClicked(it) }
-            onImportantClickListener = { onTaskImportantClicked(it) }
-            clickItemListener = { onItemTaskClick(it) }
+    private fun initBottomBar() {
+        bottomBar.setNavigationOnClickListener { callback?.navigateTaskLists() }
+        bottomBar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.app_bar_settings -> {
+                    callback?.openSettings()
+                    true
+                }
+                else -> false
+            }
+        }
+        fabAddNewTask.setOnClickListener {
+            callback?.onAddNewTask()
         }
     }
 
-    private fun initCompletedTasks() {
-        recyclerViewTasksCompleted.adapter = taskCompletedAdapter.apply {
+    private fun initAdapter() {
+        taskUnCompleteAdapter.apply {
             onCheckboxClickListener = { onTaskCheckboxClicked(it) }
             onImportantClickListener = { onTaskImportantClicked(it) }
             clickItemListener = { onItemTaskClick(it) }
         }
+
+        taskCompletedAdapter.apply {
+            onCheckboxClickListener = { onTaskCheckboxClicked(it) }
+            onImportantClickListener = { onTaskImportantClicked(it) }
+            clickItemListener = { onItemTaskClick(it) }
+        }
+
+        recyclerViewTasks.adapter = ConcatAdapter(
+            taskUnCompleteAdapter,
+            taskCompletedTaskTitleAdapter,
+            taskCompletedAdapter
+        )
     }
 
     private fun onItemTaskClick(task: Task) {
@@ -171,8 +193,8 @@ class HomeFragment : BaseFragment<HomeContract.View, HomePresenter>(),
     }
 
     private fun updateCompletedTaskTitle() {
-        textCompletedTitle.text =
-            "${getString(R.string.msg_completed_task_title)} (${taskCompletedAdapter.items.size})"
+        taskCompletedTaskTitleAdapter.items[0] = taskCompletedAdapter.items.size
+        taskCompletedTaskTitleAdapter.notifyItemChanged(0)
     }
 
     private fun onUpdateTask(task: Task) {
@@ -210,6 +232,9 @@ class HomeFragment : BaseFragment<HomeContract.View, HomePresenter>(),
 
     interface OnItemTaskClickCallBack {
         fun onItemTaskClick(task: Task)
+        fun onAddNewTask()
+        fun navigateTaskLists()
+        fun openSettings()
     }
 
     companion object {

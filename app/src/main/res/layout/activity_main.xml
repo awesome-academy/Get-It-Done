@@ -1,39 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.main.MainActivity">
-
-    <FrameLayout
-        android:id="@+id/frameContainer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="?attr/actionBarSize" />
-
-    <com.google.android.material.bottomappbar.BottomAppBar
-        android:id="@+id/bottomBar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_gravity="bottom"
-        android:backgroundTint="@color/colorPrimaryLight"
-        android:elevation="@dimen/dp_6"
-        android:translationZ="@dimen/dp_4"
-        app:fabAlignmentMode="center"
-        app:hideOnScroll="true"
-        app:layout_scrollFlags="scroll|enterAlways"
-        app:menu="@menu/bottom_app_bar_menu"
-        app:navigationIcon="@drawable/ic_menu" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabAddNewTask"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="@string/description_fab_content"
-        android:elevation="@dimen/dp_6"
-        android:translationZ="@dimen/dp_4"
-        app:backgroundTint="@color/colorAccent"
-        app:layout_anchor="@id/bottomBar"
-        app:srcCompat="@drawable/ic_add" />
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</FrameLayout>
