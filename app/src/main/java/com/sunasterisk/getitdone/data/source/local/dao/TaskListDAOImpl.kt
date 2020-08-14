@@ -39,9 +39,9 @@ class TaskListDAOImpl private constructor(appDatabase: AppDatabase) : TaskListDA
         return list
     }
 
-    override fun addNewList(list: TaskList): Boolean {
+    override fun addNewList(list: TaskList): Long {
         val values = list.getContentValues()
-        return database.insert(TaskList.TABLE_NAME, null, values) > 0
+        return database.insert(TaskList.TABLE_NAME, null, values)
     }
 
     override fun changeListTitle(list: TaskList): Boolean {
