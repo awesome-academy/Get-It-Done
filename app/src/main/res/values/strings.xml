@@ -51,4 +51,7 @@
     <string name="msg_delete_list_fail">Delete list fail</string>
     <string name="msg_delete_completed_tasks_successful">Delete completed tasks successful</string>
     <string name="msg_delete_completed_tasks_fail">Delete completed tasks fail</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+    <string name="msg_no_task">Good job! You\'ve done everything</string>
 </resources>

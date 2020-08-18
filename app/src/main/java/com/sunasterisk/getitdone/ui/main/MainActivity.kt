@@ -17,7 +17,11 @@ import com.sunasterisk.getitdone.ui.options.OptionsFragment
 import com.sunasterisk.getitdone.ui.options.OptionsFragment.Companion.OPTIONS_TAG
 import com.sunasterisk.getitdone.ui.taskList.TaskListFragment
 import com.sunasterisk.getitdone.ui.taskList.TaskListFragment.Companion.TASK_LIST_TAG
+import com.sunasterisk.getitdone.utils.Constants.ACTION_ADD_NEW_TASK
+import com.sunasterisk.getitdone.utils.Constants.ACTION_GO_TO_TASK_DETAIL
 import com.sunasterisk.getitdone.utils.Constants.DEFAULT_TASK_LIST_ID
+import com.sunasterisk.getitdone.utils.Constants.EXTRA_ITEM
+import com.sunasterisk.getitdone.utils.Constants.TASK_LIST_MY_DAY_ID
 import com.sunasterisk.getitdone.utils.addFragment
 import com.sunasterisk.getitdone.utils.replaceFragment
 
@@ -34,11 +38,24 @@ class MainActivity : BaseActivity<MainContract.View, MainPresenter>(), MainContr
     private var homeFragment = HomeFragment()
 
     override fun initView(savedInstanceState: Bundle?) {
-        initHomeFragment()
+        when (intent?.action) {
+            ACTION_ADD_NEW_TASK -> {
+                taskListId = TASK_LIST_MY_DAY_ID
+                initHomeFragment()
+                onAddNewTask()
+            }
+            ACTION_GO_TO_TASK_DETAIL -> {
+                taskListId = TASK_LIST_MY_DAY_ID
+                initHomeFragment()
+                val task = intent?.getParcelableExtra<Task>(EXTRA_ITEM)
+                task?.let { goToDetail(it) }
+            }
+            else -> initHomeFragment()
+        }
     }
 
     override fun onItemTaskClick(task: Task) {
-        addFragment(R.id.frameContainer, DetailFragment.newInstance(task), DETAIL_TAG)
+        goToDetail(task)
     }
 
     override fun onAddNewTask() {
@@ -84,6 +101,10 @@ class MainActivity : BaseActivity<MainContract.View, MainPresenter>(), MainContr
     override fun onListDeleted() {
         taskListId = DEFAULT_TASK_LIST_ID
         initHomeFragment()
+    }
+
+    private fun goToDetail(task: Task) {
+        addFragment(R.id.frameContainer, DetailFragment.newInstance(task), DETAIL_TAG)
     }
 
     private fun addOrUpdateTaskList(taskListId: Int = -1) {

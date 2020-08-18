@@ -36,8 +36,10 @@ object Constants {
 
     const val TASK_LIST_MY_DAY_ID = -1
     const val TASK_LIST_IMPORTANT_ID = -2
-    
-    const val COMPLETED_TASKS_TITLE = "Completed tasks"
+
+    const val ACTION_ADD_NEW_TASK = "Action add new task"
+    const val ACTION_GO_TO_TASK_DETAIL = "Action go to task's detail"
+    const val EXTRA_ITEM = "item"
 }
 
 object Database {

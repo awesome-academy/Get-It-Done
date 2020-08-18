@@ -1,7 +1,10 @@
 package com.sunasterisk.getitdone.ui.home
 
 import android.app.SearchManager
+import android.appwidget.AppWidgetManager
+import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -30,6 +33,7 @@ import com.sunasterisk.getitdone.utils.Constants.REQUEST_KEY_UPDATE_TASK_LIST_TI
 import com.sunasterisk.getitdone.utils.Constants.STATUS_COMPLETED
 import com.sunasterisk.getitdone.utils.Constants.STATUS_NOT_COMPLETE
 import com.sunasterisk.getitdone.utils.toast
+import com.sunasterisk.getitdone.widget.TaskWidget
 import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : BaseFragment<HomeContract.View, HomePresenter>(),
@@ -114,10 +118,12 @@ class HomeFragment : BaseFragment<HomeContract.View, HomePresenter>(),
 
     override fun showInsertedTask(task: Task) {
         taskUnCompleteAdapter.insertItem(task)
+        updateWidgetTasks()
     }
 
     override fun showLoadedUnCompletedTasks(tasks: List<Task>) {
         taskUnCompleteAdapter.loadItems(tasks.toMutableList())
+        updateWidgetTasks()
     }
 
     override fun showLoadedCompletedTasks(tasks: List<Task>) {
@@ -213,6 +219,7 @@ class HomeFragment : BaseFragment<HomeContract.View, HomePresenter>(),
             task.status = STATUS_COMPLETED
         }
         updateCompletedTaskTitle()
+        updateWidgetTasks()
         presenter?.updateTask(task)
     }
 
@@ -257,6 +264,8 @@ class HomeFragment : BaseFragment<HomeContract.View, HomePresenter>(),
                 updateCompletedTaskTitle()
             }
         }
+
+        updateWidgetTasks()
     }
 
     private fun onDeleteTask(task: Task) {
@@ -267,6 +276,7 @@ class HomeFragment : BaseFragment<HomeContract.View, HomePresenter>(),
         } else {
             taskUnCompleteAdapter.items.find { it.id == task.id }?.apply {
                 taskUnCompleteAdapter.removeItem(this)
+                updateWidgetTasks()
             }
         }
     }
@@ -274,6 +284,21 @@ class HomeFragment : BaseFragment<HomeContract.View, HomePresenter>(),
     private fun onDeleteCompletedTasks() {
         taskCompletedAdapter.removeAllItems()
         updateCompletedTaskTitle()
+    }
+
+    private fun updateWidgetTasks() {
+        val intent = Intent(context, TaskWidget::class.java).apply {
+            action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
+        }
+        context?.let { context ->
+            val idArr = AppWidgetManager.getInstance(context)?.getAppWidgetIds(
+                ComponentName(context.applicationContext, TaskWidget::class.java)
+            )
+            idArr?.let {
+                intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, it)
+                activity?.sendBroadcast(intent)
+            }
+        }
     }
 
     override fun onDestroyView() {
