@@ -14,7 +14,7 @@ abstract class BaseAdapter<T, V : BaseViewHolder<T>> : RecyclerView.Adapter<V>()
         viewHolder.bindData(items[position])
     }
 
-    fun loadItems(newItems: MutableList<T>) {
+    open fun loadItems(newItems: MutableList<T>) {
         items.clear()
         items.addAll(newItems)
         notifyDataSetChanged()
