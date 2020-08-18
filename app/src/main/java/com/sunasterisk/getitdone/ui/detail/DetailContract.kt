@@ -8,6 +8,8 @@ class DetailContract {
     interface View : BaseContract.View {
         fun sendRequest(requestKey: String, bundleKey: String)
         fun showTaskLists(taskLists: List<TaskList>)
+        fun cancelAlarm(task: Task)
+        fun setUpAlarm(task: Task)
         fun showMessage(string: String)
         fun showMessage(stringId: Int)
         fun popFragment()

@@ -30,6 +30,8 @@
             </intent-filter>
         </activity>
 
+        <receiver android:name=".notification.AlarmReceiver" />
+
         <service
             android:name=".widget.WidgetRemoteViewService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />

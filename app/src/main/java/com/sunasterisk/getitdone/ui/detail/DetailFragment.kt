@@ -60,6 +60,14 @@ class DetailFragment : BaseFragment<DetailContract.View, DetailPresenter>(),
         spinnerTaskLists.setSelection(taskLists.indexOf(taskLists.find { it.id == task?.listId }))
     }
 
+    override fun cancelAlarm(task: Task) {
+        cancelAlarm(context, task)
+    }
+
+    override fun setUpAlarm(task: Task) {
+        setUpAlarm(context, task)
+    }
+
     override fun showMessage(string: String) {
         context?.run { toast(string) }
     }

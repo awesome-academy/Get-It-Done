@@ -32,9 +32,11 @@ import com.sunasterisk.getitdone.utils.Constants.REQUEST_KEY_UPDATE_TASK
 import com.sunasterisk.getitdone.utils.Constants.REQUEST_KEY_UPDATE_TASK_LIST_TITLE
 import com.sunasterisk.getitdone.utils.Constants.STATUS_COMPLETED
 import com.sunasterisk.getitdone.utils.Constants.STATUS_NOT_COMPLETE
+import com.sunasterisk.getitdone.utils.cancelAlarm
 import com.sunasterisk.getitdone.utils.toast
 import com.sunasterisk.getitdone.widget.TaskWidget
 import kotlinx.android.synthetic.main.fragment_home.*
+import com.sunasterisk.getitdone.utils.setUpAlarm
 
 class HomeFragment : BaseFragment<HomeContract.View, HomePresenter>(),
     HomeContract.View, SearchView.OnQueryTextListener {
@@ -119,6 +121,10 @@ class HomeFragment : BaseFragment<HomeContract.View, HomePresenter>(),
     override fun showInsertedTask(task: Task) {
         taskUnCompleteAdapter.insertItem(task)
         updateWidgetTasks()
+    }
+
+    override fun setUpAlarm(task: Task) {
+        setUpAlarm(context, task)
     }
 
     override fun showLoadedUnCompletedTasks(tasks: List<Task>) {
@@ -217,6 +223,7 @@ class HomeFragment : BaseFragment<HomeContract.View, HomePresenter>(),
             taskUnCompleteAdapter.removeItem(task)
             taskCompletedAdapter.insertItem(task)
             task.status = STATUS_COMPLETED
+            cancelAlarm(context, task)
         }
         updateCompletedTaskTitle()
         updateWidgetTasks()

@@ -83,6 +83,7 @@ class HomePresenter(
         taskRepository.getTaskById(id, object : OnLoadedCallback<Task> {
             override fun onSuccess(data: Task) {
                 view?.showInsertedTask(data)
+                if (data.timeReminder.isNotBlank()) view?.setUpAlarm(data)
             }
 
             override fun onFailure(exception: Exception) {

@@ -19,6 +19,7 @@ import com.sunasterisk.getitdone.ui.taskList.TaskListFragment
 import com.sunasterisk.getitdone.ui.taskList.TaskListFragment.Companion.TASK_LIST_TAG
 import com.sunasterisk.getitdone.utils.Constants.ACTION_ADD_NEW_TASK
 import com.sunasterisk.getitdone.utils.Constants.ACTION_GO_TO_TASK_DETAIL
+import com.sunasterisk.getitdone.utils.Constants.ACTION_GO_TO_TASK_DETAIL_FROM_NOTIFICATION
 import com.sunasterisk.getitdone.utils.Constants.DEFAULT_TASK_LIST_ID
 import com.sunasterisk.getitdone.utils.Constants.EXTRA_ITEM
 import com.sunasterisk.getitdone.utils.Constants.TASK_LIST_MY_DAY_ID
@@ -49,6 +50,13 @@ class MainActivity : BaseActivity<MainContract.View, MainPresenter>(), MainContr
                 initHomeFragment()
                 val task = intent?.getParcelableExtra<Task>(EXTRA_ITEM)
                 task?.let { goToDetail(it) }
+            }
+            ACTION_GO_TO_TASK_DETAIL_FROM_NOTIFICATION -> {
+                intent?.getParcelableExtra<Task>(EXTRA_ITEM)?.apply {
+                    taskListId = this.listId
+                    initHomeFragment()
+                    goToDetail(this)
+                }
             }
             else -> initHomeFragment()
         }

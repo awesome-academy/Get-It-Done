@@ -42,6 +42,8 @@ class DetailPresenter(
             override fun onSuccess(data: Boolean) {
                 if (data) {
                     view?.sendRequest(REQUEST_KEY_UPDATE_TASK, BUNDLE_TASK)
+                    view?.cancelAlarm(task)
+                    if (task.timeReminder.isNotBlank()) view?.setUpAlarm(task)
                 } else {
                     view?.showMessage(R.string.msg_update_task_fail)
                 }
