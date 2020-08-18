@@ -2,6 +2,8 @@ package com.sunasterisk.getitdone.ui.home
 
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.drawable.AnimatedVectorDrawable
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,12 +15,12 @@ import com.sunasterisk.getitdone.utils.Constants.STATUS_NOT_COMPLETE
 import com.sunasterisk.getitdone.utils.dateDiff
 import com.sunasterisk.getitdone.utils.toDate
 import kotlinx.android.synthetic.main.task_item.view.*
-import kotlinx.android.synthetic.main.task_item_header.view.*
 import java.util.*
 
 class TaskAdapter : BaseAdapter<Task, TaskAdapter.TaskViewHolder>() {
 
     override var items = mutableListOf<Task>()
+    private var filteredItems = mutableListOf<Task>()
     var onCheckboxClickListener: (Task) -> Unit = { _ -> }
     var onImportantClickListener: (Task) -> Unit = { _ -> }
     override var clickItemListener: (Task) -> Unit = { _ -> }
@@ -28,6 +30,32 @@ class TaskAdapter : BaseAdapter<Task, TaskAdapter.TaskViewHolder>() {
             LayoutInflater.from(parent.context).inflate(R.layout.task_item, parent, false),
             onCheckboxClickListener, onImportantClickListener, clickItemListener
         )
+
+    override fun loadItems(newItems: MutableList<Task>) {
+        items.clear()
+        filteredItems.clear()
+        items.addAll(newItems)
+        filteredItems.addAll(items)
+        notifyDataSetChanged()
+    }
+
+    private fun loadFilterItems(newItems: MutableList<Task>) {
+        items.clear()
+        items.addAll(newItems)
+        notifyDataSetChanged()
+    }
+
+    fun filter(filterString: String) {
+        val filterItems = mutableListOf<Task>()
+        if (filterString.isNotBlank()) {
+            filterItems.addAll(filteredItems.filter {
+                it.title.contains(filterString, true) || it.description.contains(filterString, true)
+            })
+        } else {
+            filterItems.addAll(filteredItems)
+        }
+        loadFilterItems(filterItems)
+    }
 
     class TaskViewHolder(
         itemView: View,
@@ -58,12 +86,13 @@ class TaskAdapter : BaseAdapter<Task, TaskAdapter.TaskViewHolder>() {
         private fun displayTaskStatus(task: Task) {
             itemView.apply {
                 if (task.status == STATUS_NOT_COMPLETE) {
-                    imageStatus.setImageResource(R.drawable.ic_not_check)
+                    imageStatus.setImageResource(R.drawable.avd_anim_check)
                 } else {
-                    imageStatus.setImageResource(R.drawable.ic_checked)
+                    imageStatus.setImageResource(R.drawable.avd_anim_uncheck)
                     textTitle.paintFlags =
                         textTitle.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
                 }
+                imageStatus.setColorFilter(Color.parseColor(task.color))
             }
         }
 
@@ -119,17 +148,14 @@ class TaskAdapter : BaseAdapter<Task, TaskAdapter.TaskViewHolder>() {
                 else
                     btnImportant.setImageResource(R.drawable.ic_star_off)
 
-                imageStatus.setOnClickListener { onCheckboxClickListener(task) }
+                imageStatus.setOnClickListener {
+                    (imageStatus.drawable as AnimatedVectorDrawable).start()
+                    Handler().postDelayed({
+                        onCheckboxClickListener(task)
+                    }, 300)
+                }
                 btnImportant.setOnClickListener { onImportantClickListener(task) }
             }
-        }
-    }
-
-    class HeaderViewHolder(itemView: View, override var clickItemListener: (String) -> Unit) :
-        BaseViewHolder<String>(itemView) {
-        override fun bindData(item: String) {
-            super.bindData(item)
-            itemView.textCompletedTaskTitle.text = item
         }
     }
 }

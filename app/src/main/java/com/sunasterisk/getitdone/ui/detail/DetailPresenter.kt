@@ -42,12 +42,12 @@ class DetailPresenter(
             override fun onSuccess(data: Boolean) {
                 if (data) {
                     view?.sendRequest(REQUEST_KEY_UPDATE_TASK, BUNDLE_TASK)
-                    view?.showMessage(R.string.msg_update_task_successfully)
-                    view?.popFragment()
+                    view?.cancelAlarm(task)
+                    if (task.timeReminder.isNotBlank()) view?.setUpAlarm(task)
                 } else {
                     view?.showMessage(R.string.msg_update_task_fail)
-                    view?.popFragment()
                 }
+                view?.popFragment()
             }
 
             override fun onFailure(exception: Exception) {
@@ -62,12 +62,10 @@ class DetailPresenter(
             override fun onSuccess(data: Boolean) {
                 if (data) {
                     view?.sendRequest(REQUEST_KEY_DELETE_TASK, BUNDLE_TASK)
-                    view?.showMessage(R.string.msg_delete_task_successfully)
-                    view?.popFragment()
                 } else {
                     view?.showMessage(R.string.msg_delete_task_fail)
-                    view?.popFragment()
                 }
+                view?.popFragment()
             }
 
             override fun onFailure(exception: Exception) {

@@ -17,16 +17,11 @@ import com.sunasterisk.getitdone.data.source.local.TaskLocalDataSource
 import com.sunasterisk.getitdone.data.source.local.dao.TaskDAOImpl
 import com.sunasterisk.getitdone.data.source.local.dao.TaskListDAOImpl
 import com.sunasterisk.getitdone.data.source.local.database.AppDatabase
-import com.sunasterisk.getitdone.utils.Constants.BUNDLE_TASK
+import com.sunasterisk.getitdone.utils.*
 import com.sunasterisk.getitdone.utils.Constants.DAY_FORMAT
-import com.sunasterisk.getitdone.utils.Constants.REQUEST_KEY_DELETE_TASK
-import com.sunasterisk.getitdone.utils.Constants.REQUEST_KEY_UPDATE_TASK
+import com.sunasterisk.getitdone.utils.Constants.EMPTY_STRING
 import com.sunasterisk.getitdone.utils.Constants.STATUS_COMPLETED
 import com.sunasterisk.getitdone.utils.Constants.STATUS_NOT_COMPLETE
-import com.sunasterisk.getitdone.utils.formatToString
-import com.sunasterisk.getitdone.utils.showDateTimePicker
-import com.sunasterisk.getitdone.utils.toDate
-import com.sunasterisk.getitdone.utils.toast
 import kotlinx.android.synthetic.main.fragment_detail.*
 import java.util.*
 
@@ -62,6 +57,15 @@ class DetailFragment : BaseFragment<DetailContract.View, DetailPresenter>(),
         }
 
         spinnerTaskLists.adapter = SpinnerArrayAdapter(requireContext(), this.taskLists)
+        spinnerTaskLists.setSelection(taskLists.indexOf(taskLists.find { it.id == task?.listId }))
+    }
+
+    override fun cancelAlarm(task: Task) {
+        cancelAlarm(context, task)
+    }
+
+    override fun setUpAlarm(task: Task) {
+        setUpAlarm(context, task)
     }
 
     override fun showMessage(string: String) {
@@ -208,10 +212,19 @@ class DetailFragment : BaseFragment<DetailContract.View, DetailPresenter>(),
         task?.let {
             var color = Color.DKGRAY
             var textDate = getString(R.string.title_add_time_reminder)
+            textDatePicker.removeDrawables()
+            textDatePicker.background = null
             if (it.timeReminder.isNotBlank()) {
                 color = Color.parseColor(it.color)
                 textDate = it.timeReminder
                 textDatePicker.setBackgroundResource(R.drawable.rounded_corner)
+                textDatePicker.addDrawableEnd(R.drawable.ic_close)
+                textDatePicker.setOnTouchDrawableEndListener(
+                    onDrawableTouch = {
+                        it.timeReminder = EMPTY_STRING
+                        displayDatePickerView()
+                    }
+                )
             }
             imageDatePicker.setColorFilter(color)
             textDatePicker.setTextColor(color)

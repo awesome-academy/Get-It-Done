@@ -2,6 +2,7 @@ package com.sunasterisk.getitdone.data.model
 
 import android.content.ContentValues
 import android.database.Cursor
+import android.os.Parcel
 import android.os.Parcelable
 import com.sunasterisk.getitdone.utils.Constants.DAY_FORMAT
 import com.sunasterisk.getitdone.utils.Constants.DEFAULT_COLOR
@@ -10,10 +11,8 @@ import com.sunasterisk.getitdone.utils.Constants.EMPTY_STRING
 import com.sunasterisk.getitdone.utils.Constants.STATUS_NOT_COMPLETE
 import com.sunasterisk.getitdone.utils.Constants.TRUE
 import com.sunasterisk.getitdone.utils.formatToString
-import kotlinx.android.parcel.Parcelize
 import java.util.*
 
-@Parcelize
 data class Task(
     var id: Int = DEFAULT_ID,
     var listId: Int = DEFAULT_ID,
@@ -26,6 +25,20 @@ data class Task(
     var status: String = STATUS_NOT_COMPLETE,
     var timeCreated: String = EMPTY_STRING
 ) : Parcelable {
+
+    constructor(parcel: Parcel) : this(
+        parcel.readInt(),
+        parcel.readInt(),
+        parcel.readString() ?: EMPTY_STRING,
+        parcel.readString() ?: EMPTY_STRING,
+        parcel.readString() ?: EMPTY_STRING,
+        parcel.readByte() != 0.toByte(),
+        parcel.readString() ?: EMPTY_STRING,
+        parcel.readString() ?: EMPTY_STRING,
+        parcel.readString() ?: EMPTY_STRING,
+        parcel.readString() ?: EMPTY_STRING
+    )
+
     constructor(cursor: Cursor) : this(
         cursor.getInt(cursor.getColumnIndex(ID)),
         cursor.getInt(cursor.getColumnIndex(LIST_ID)),
@@ -54,7 +67,15 @@ data class Task(
 
     fun isInMyDay() = inMyDay == Date().formatToString(DAY_FORMAT)
 
-    companion object {
+    companion object CREATOR : Parcelable.Creator<Task> {
+        override fun createFromParcel(parcel: Parcel): Task {
+            return Task(parcel)
+        }
+
+        override fun newArray(size: Int): Array<Task?> {
+            return arrayOfNulls(size)
+        }
+
         const val TABLE_NAME = "TASK"
 
         const val ID = "ID"
@@ -76,5 +97,22 @@ data class Task(
         const val STATUS = "STATUS"
 
         const val TIME_CREATED = "TIME_CREATED"
+    }
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeInt(id)
+        parcel.writeInt(listId)
+        parcel.writeString(title)
+        parcel.writeString(description)
+        parcel.writeString(timeReminder)
+        parcel.writeByte(if (isImportant) 1 else 0)
+        parcel.writeString(inMyDay)
+        parcel.writeString(color)
+        parcel.writeString(status)
+        parcel.writeString(timeCreated)
+    }
+
+    override fun describeContents(): Int {
+        return 0
     }
 }

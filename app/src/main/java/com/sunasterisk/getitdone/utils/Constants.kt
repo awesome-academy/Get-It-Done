@@ -29,12 +29,25 @@ object Constants {
 
     const val REQUEST_KEY_UPDATE_TASK = "UPDATE_TASK"
     const val REQUEST_KEY_DELETE_TASK = "DELETE_TASK"
+    const val REQUEST_KEY_DELETE_COMPLETED_TASKS = "DELETE_COMPLETED_TASKS"
+    const val REQUEST_KEY_UPDATE_TASK_LIST_TITLE = "UPDATE_TASK_LIST_TITLE"
     const val BUNDLE_TASK = "TASK"
+    const val BUNDLE_TASK_LIST_TITLE = "TASK_LIST_TITLE"
 
     const val TASK_LIST_MY_DAY_ID = -1
     const val TASK_LIST_IMPORTANT_ID = -2
-    
-    const val COMPLETED_TASKS_TITLE = "Completed tasks"
+
+    const val ACTION_ADD_NEW_TASK = "Action add new task"
+    const val ACTION_GO_TO_TASK_DETAIL = "Action go to task's detail"
+    const val ACTION_GO_TO_TASK_DETAIL_FROM_NOTIFICATION = "Action go to task's detail from notification"
+    const val EXTRA_ITEM = "item"
+    const val EXTRA_ITEM_BYTE_ARRAY = "item"
+
+    const val DRAWABLE_RIGHT = 2
+}
+
+object Notification {
+    const val CHANNEL_ID = "channel_id"
 }
 
 object Database {

@@ -49,6 +49,10 @@ class TaskRepository private constructor(
         localDataSource.deleteTasksByListId(listId, callback)
     }
 
+    override fun deleteCompletedTasksByListId(listId: Int, callback: OnLoadedCallback<Boolean>) {
+        localDataSource.deleteCompletedTasksByListId(listId, callback)
+    }
+
     companion object {
         private var instance: TaskRepository? = null
 

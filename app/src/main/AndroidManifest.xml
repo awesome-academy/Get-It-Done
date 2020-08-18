@@ -9,6 +9,16 @@
         android:roundIcon="@drawable/ic_logo"
         android:supportsRtl="true"
         android:theme="@style/SplashScreenTheme">
+        <receiver android:name=".widget.TaskWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/task_widget_info" />
+        </receiver>
+
         <activity
             android:name=".ui.main.MainActivity"
             android:configChanges="screenSize"
@@ -19,6 +29,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <receiver android:name=".notification.AlarmReceiver" />
+
+        <service
+            android:name=".widget.WidgetRemoteViewService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
     </application>
 
 </manifest>

@@ -25,8 +25,8 @@ class TaskListRepository private constructor(
         localDataSource.changeListTitle(list, callback)
     }
 
-    override fun deleteList(list: TaskList, callback: OnLoadedCallback<Boolean>) {
-        localDataSource.deleteList(list, callback)
+    override fun deleteList(listId: Int, callback: OnLoadedCallback<Boolean>) {
+        localDataSource.deleteList(listId, callback)
     }
 
     companion object {

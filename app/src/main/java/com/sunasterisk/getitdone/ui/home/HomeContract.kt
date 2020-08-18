@@ -10,6 +10,7 @@ class HomeContract {
         fun displayMessage(stringId: Int)
         fun displayMessage(message: String)
         fun showInsertedTask(task: Task)
+        fun setUpAlarm(task: Task)
         fun showLoadedUnCompletedTasks(tasks: List<Task>)
         fun showLoadedCompletedTasks(tasks: List<Task>)
     }

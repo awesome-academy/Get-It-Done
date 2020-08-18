@@ -65,7 +65,7 @@ class HomePresenter(
                 view?.showLoadedCompletedTasks(completedTasks)
             }
 
-            override fun onFailure(exception: Exception) {
+            override fun onFailure(exception: java.lang.Exception) {
                 view?.displayMessage(exception.toString())
             }
         }
@@ -83,6 +83,7 @@ class HomePresenter(
         taskRepository.getTaskById(id, object : OnLoadedCallback<Task> {
             override fun onSuccess(data: Task) {
                 view?.showInsertedTask(data)
+                if (data.timeReminder.isNotBlank()) view?.setUpAlarm(data)
             }
 
             override fun onFailure(exception: Exception) {
@@ -94,9 +95,7 @@ class HomePresenter(
     override fun updateTask(task: Task) {
         taskRepository.updateTask(task, object : OnLoadedCallback<Boolean> {
             override fun onSuccess(data: Boolean) {
-                val message =
-                    if (data) R.string.msg_update_task_successfully else R.string.msg_update_task_fail
-                view?.displayMessage(message)
+                if (!data) view?.displayMessage(R.string.msg_update_task_fail)
             }
 
             override fun onFailure(exception: Exception) {
