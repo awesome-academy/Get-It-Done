@@ -24,10 +24,11 @@ class NewTaskListPresenter(private val taskListRepository: TaskListRepository) :
             override fun onSuccess(data: Long) {
                 if (data > 0) {
                     view?.onNewTaskListCreated(data)
+                    view?.popFragment()
                 } else {
                     view?.displayMessage(R.string.msg_add_new_list_fail)
+                    view?.popFragment()
                 }
-                view?.popFragment()
             }
 
             override fun onFailure(exception: Exception) {

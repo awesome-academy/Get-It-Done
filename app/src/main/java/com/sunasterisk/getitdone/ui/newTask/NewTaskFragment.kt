@@ -84,8 +84,8 @@ class NewTaskFragment : BaseBottomSheetFragment<NewTaskContract.View, NewTaskPre
     }
 
     private fun initListener() {
-        linearCardView.children.filterIsInstance(CardView::class.java).forEach { cardView ->
-            cardView.setOnClickListener { onColorPicker(it.tag as String) }
+        for (item in linearCardView.children) {
+            if (item is CardView) item.setOnClickListener { onColorPicker(item.tag as String) }
         }
         imageDatePicker.setOnClickListener { showDateTimePicker() }
         buttonSave.setOnClickListener { saveNewTask() }
