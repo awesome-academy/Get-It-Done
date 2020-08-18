@@ -21,9 +21,12 @@ import com.sunasterisk.getitdone.data.source.local.dao.TaskDAOImpl
 import com.sunasterisk.getitdone.data.source.local.dao.TaskListDAOImpl
 import com.sunasterisk.getitdone.data.source.local.database.AppDatabase
 import com.sunasterisk.getitdone.utils.Constants.BUNDLE_TASK
+import com.sunasterisk.getitdone.utils.Constants.BUNDLE_TASK_LIST_TITLE
 import com.sunasterisk.getitdone.utils.Constants.DEFAULT_TASK_LIST_ID
+import com.sunasterisk.getitdone.utils.Constants.REQUEST_KEY_DELETE_COMPLETED_TASKS
 import com.sunasterisk.getitdone.utils.Constants.REQUEST_KEY_DELETE_TASK
 import com.sunasterisk.getitdone.utils.Constants.REQUEST_KEY_UPDATE_TASK
+import com.sunasterisk.getitdone.utils.Constants.REQUEST_KEY_UPDATE_TASK_LIST_TITLE
 import com.sunasterisk.getitdone.utils.Constants.STATUS_COMPLETED
 import com.sunasterisk.getitdone.utils.Constants.STATUS_NOT_COMPLETE
 import com.sunasterisk.getitdone.utils.toast
@@ -63,6 +66,14 @@ class HomeFragment : BaseFragment<HomeContract.View, HomePresenter>(),
             result?.let { onDeleteTask(it) }
         }
 
+        setFragmentResultListener(REQUEST_KEY_UPDATE_TASK_LIST_TITLE) { _, bundle ->
+            bundle.getString(BUNDLE_TASK_LIST_TITLE)?.let { setToolBarTitle(it) }
+        }
+
+        setFragmentResultListener(REQUEST_KEY_DELETE_COMPLETED_TASKS) { _, _ ->
+            onDeleteCompletedTasks()
+        }
+
         setHasOptionsMenu(true)
     }
 
@@ -73,7 +84,7 @@ class HomeFragment : BaseFragment<HomeContract.View, HomePresenter>(),
         (searchMenuItem.actionView as SearchView).apply {
             queryHint = getString(R.string.msg_search_hint)
             setSearchableInfo(searchManager.getSearchableInfo(activity?.componentName))
-            setOnQueryTextListener(this@HomeFragment)   
+            setOnQueryTextListener(this@HomeFragment)
         }
         super.onCreateOptionsMenu(menu, inflater)
     }
@@ -258,6 +269,11 @@ class HomeFragment : BaseFragment<HomeContract.View, HomePresenter>(),
                 taskUnCompleteAdapter.removeItem(this)
             }
         }
+    }
+
+    private fun onDeleteCompletedTasks() {
+        taskCompletedAdapter.removeAllItems()
+        updateCompletedTaskTitle()
     }
 
     override fun onDestroyView() {

@@ -12,5 +12,5 @@ interface TaskListDAO {
 
     fun changeListTitle(list: TaskList): Boolean
 
-    fun deleteList(list: TaskList): Boolean
+    fun deleteList(listId: Int): Boolean
 }

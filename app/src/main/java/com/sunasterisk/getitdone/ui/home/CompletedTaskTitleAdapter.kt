@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import com.sunasterisk.getitdone.R
 import com.sunasterisk.getitdone.base.BaseAdapter
 import com.sunasterisk.getitdone.base.BaseViewHolder
-import com.sunasterisk.getitdone.utils.Constants.COMPLETED_TASKS_TITLE
 import kotlinx.android.synthetic.main.task_item_header.view.*
 
 class CompletedTaskTitleAdapter : BaseAdapter<Int, CompletedTaskTitleAdapter.HeaderViewHolder>() {
@@ -24,10 +23,10 @@ class CompletedTaskTitleAdapter : BaseAdapter<Int, CompletedTaskTitleAdapter.Hea
         override fun bindData(item: Int) {
             super.bindData(item)
             if (item != 0) {
-                itemView.linearItemHeader.visibility = View.VISIBLE
-                itemView.textCompletedTaskTitle.text = "$COMPLETED_TASKS_TITLE ($item)"
+                itemView.layout_item_header.visibility = View.VISIBLE
+                itemView.text_completed_task_title.text = "Completed tasks ($item)"
             } else {
-                itemView.linearItemHeader.visibility = View.GONE
+                itemView.layout_item_header.visibility = View.GONE
             }
         }
     }

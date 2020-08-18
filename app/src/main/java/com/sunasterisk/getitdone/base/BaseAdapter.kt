@@ -39,4 +39,9 @@ abstract class BaseAdapter<T, V : BaseViewHolder<T>> : RecyclerView.Adapter<V>()
     fun updateItem(item: T) {
         notifyItemChanged(items.indexOf(item))
     }
+    
+    fun removeAllItems(){
+        items.clear()
+        notifyDataSetChanged()
+    }
 }

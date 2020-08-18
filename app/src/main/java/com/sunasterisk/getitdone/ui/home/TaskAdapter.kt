@@ -13,6 +13,7 @@ import com.sunasterisk.getitdone.utils.Constants.STATUS_NOT_COMPLETE
 import com.sunasterisk.getitdone.utils.dateDiff
 import com.sunasterisk.getitdone.utils.toDate
 import kotlinx.android.synthetic.main.task_item.view.*
+import kotlinx.android.synthetic.main.task_item_header.view.*
 import java.util.*
 
 class TaskAdapter : BaseAdapter<Task, TaskAdapter.TaskViewHolder>() {
@@ -148,6 +149,14 @@ class TaskAdapter : BaseAdapter<Task, TaskAdapter.TaskViewHolder>() {
                 imageStatus.setOnClickListener { onCheckboxClickListener(task) }
                 btnImportant.setOnClickListener { onImportantClickListener(task) }
             }
+        }
+    }
+
+    class HeaderViewHolder(itemView: View, override var clickItemListener: (String) -> Unit) :
+        BaseViewHolder<String>(itemView) {
+        override fun bindData(item: String) {
+            super.bindData(item)
+            itemView.text_completed_task_title.text = item
         }
     }
 }

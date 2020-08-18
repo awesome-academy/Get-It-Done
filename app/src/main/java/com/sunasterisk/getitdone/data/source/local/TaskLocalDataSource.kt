@@ -70,6 +70,12 @@ class TaskLocalDataSource private constructor(
         }.execute(listId)
     }
 
+    override fun deleteCompletedTasksByListId(listId: Int, callback: OnLoadedCallback<Boolean>) {
+        LoadingAsyncTask<Int, Boolean>(callback) {
+            taskDAO.deleteCompletedTasksByListId(listId)
+        }.execute(listId)
+    }
+
     companion object {
         private var instance: TaskLocalDataSource? = null
 

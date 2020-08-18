@@ -128,7 +128,15 @@ class TaskDAOImpl private constructor(appDatabase: AppDatabase) : TaskDAO {
             Task.TABLE_NAME,
             "${Task.LIST_ID} =?",
             arrayOf(listId.toString())
-        ) > 0
+        ) >= 0
+    }
+
+    override fun deleteCompletedTasksByListId(listId: Int): Boolean {
+        return database.delete(
+            Task.TABLE_NAME,
+            "${Task.STATUS} =? and ${Task.LIST_ID} =?",
+            arrayOf(STATUS_COMPLETED, listId.toString())
+        ) >= 0
     }
 
     private fun getTaskInSpecificCondition(selection: String, selectionArg: String): List<Task> {

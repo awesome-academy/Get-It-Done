@@ -54,11 +54,11 @@ class TaskListDAOImpl private constructor(appDatabase: AppDatabase) : TaskListDA
         ) > 0
     }
 
-    override fun deleteList(list: TaskList): Boolean {
+    override fun deleteList(listId: Int): Boolean {
         return database.delete(
             TaskList.TABLE_NAME,
             "${TaskList.ID} =?",
-            arrayOf(list.id.toString())
+            arrayOf(listId.toString())
         ) > 0
     }
 
