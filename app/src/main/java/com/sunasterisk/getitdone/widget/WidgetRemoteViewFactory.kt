@@ -28,6 +28,7 @@ class WidgetRemoteViewFactory(private val context: Context, private val intent: 
     private var appWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID
 
     override fun onCreate() {
+
         updateList()
     }
 

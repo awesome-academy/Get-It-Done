@@ -99,10 +99,6 @@ class OptionsFragment : BaseBottomSheetFragment<OptionsContract.View, OptionsPre
     }
 
     private fun initListener() {
-        layoutSelectOrder.setOnClickListener {
-
-        }
-
         textRenameList.setOnClickListener {
             callback?.onRenameList()
             dismissFragment()

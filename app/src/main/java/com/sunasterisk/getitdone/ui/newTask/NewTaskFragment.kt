@@ -14,14 +14,12 @@ import com.sunasterisk.getitdone.data.repository.TaskRepository
 import com.sunasterisk.getitdone.data.source.local.TaskLocalDataSource
 import com.sunasterisk.getitdone.data.source.local.dao.TaskDAOImpl
 import com.sunasterisk.getitdone.data.source.local.database.AppDatabase
-import com.sunasterisk.getitdone.utils.Constants
+import com.sunasterisk.getitdone.utils.*
 import com.sunasterisk.getitdone.utils.Constants.DEFAULT_COLOR
 import com.sunasterisk.getitdone.utils.Constants.DEFAULT_TASK_LIST_ID
+import com.sunasterisk.getitdone.utils.Constants.DRAWABLE_RIGHT
 import com.sunasterisk.getitdone.utils.Constants.TASK_LIST_IMPORTANT_ID
 import com.sunasterisk.getitdone.utils.Constants.TASK_LIST_MY_DAY_ID
-import com.sunasterisk.getitdone.utils.formatToString
-import com.sunasterisk.getitdone.utils.showDateTimePicker
-import com.sunasterisk.getitdone.utils.toast
 import kotlinx.android.synthetic.main.fragment_new_task.*
 import java.util.*
 
@@ -89,6 +87,13 @@ class NewTaskFragment : BaseBottomSheetFragment<NewTaskContract.View, NewTaskPre
         }
         imageDatePicker.setOnClickListener { showDateTimePicker() }
         buttonSave.setOnClickListener { saveNewTask() }
+        textDatePicker.setOnTouchDrawableEndListener(
+            onMainTouch = { showDateTimePicker() },
+            onDrawableTouch = { hideTextDatePicker() })
+    }
+
+    private fun hideTextDatePicker() {
+        textDatePicker.visibility = View.GONE
     }
 
     private fun onColorPicker(tag: String) {

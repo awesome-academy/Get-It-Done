@@ -31,11 +31,10 @@ class OptionsPresenter(
                         override fun onSuccess(data: Boolean) {
                             if (data) {
                                 view?.onDeleteListSuccessful()
-                                view?.dismissFragment()
                             } else {
                                 view?.displayMessage(R.string.msg_delete_list_fail)
-                                view?.dismissFragment()
                             }
+                            view?.dismissFragment()
                         }
 
                         override fun onFailure(exception: Exception) {
@@ -62,11 +61,10 @@ class OptionsPresenter(
                 if (data) {
                     view?.displayMessage(R.string.msg_delete_completed_tasks_successful)
                     view?.sendRequest(Constants.REQUEST_KEY_DELETE_COMPLETED_TASKS)
-                    view?.dismissFragment()
                 } else {
                     view?.displayMessage(R.string.msg_delete_completed_tasks_fail)
-                    view?.dismissFragment()
                 }
+                view?.dismissFragment()
             }
 
             override fun onFailure(exception: Exception) {

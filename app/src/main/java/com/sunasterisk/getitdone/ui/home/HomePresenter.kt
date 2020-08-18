@@ -94,9 +94,7 @@ class HomePresenter(
     override fun updateTask(task: Task) {
         taskRepository.updateTask(task, object : OnLoadedCallback<Boolean> {
             override fun onSuccess(data: Boolean) {
-                val message =
-                    if (data) R.string.msg_update_task_successfully else R.string.msg_update_task_fail
-                view?.displayMessage(message)
+                if (!data) view?.displayMessage(R.string.msg_update_task_fail)
             }
 
             override fun onFailure(exception: Exception) {

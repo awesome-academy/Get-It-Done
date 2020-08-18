@@ -18,17 +18,16 @@ class NewTaskPresenter(private val taskRepository: TaskRepository) :
     override fun detach() {
         view = null
     }
-    
+
     override fun addNewTask(task: Task) {
-        taskRepository.addNewTask(task, object : OnLoadedCallback<Long>{
+        taskRepository.addNewTask(task, object : OnLoadedCallback<Long> {
             override fun onSuccess(data: Long) {
                 if (data > 0) {
                     view?.onNewTaskCreated(data)
-                    view?.dismissFragment()
                 } else {
                     view?.displayMessage(R.string.msg_add_new_task_fail)
-                    view?.dismissFragment()
                 }
+                view?.dismissFragment()
             }
 
             override fun onFailure(exception: Exception) {

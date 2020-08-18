@@ -40,6 +40,8 @@ object Constants {
     const val ACTION_ADD_NEW_TASK = "Action add new task"
     const val ACTION_GO_TO_TASK_DETAIL = "Action go to task's detail"
     const val EXTRA_ITEM = "item"
+
+    const val DRAWABLE_RIGHT = 2
 }
 
 object Database {
