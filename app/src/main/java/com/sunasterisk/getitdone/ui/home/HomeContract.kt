@@ -9,6 +9,7 @@ class HomeContract {
         fun setToolBarTitle(stringId: Int)
         fun displayMessage(stringId: Int)
         fun displayMessage(message: String)
+        fun showInsertedTask(task: Task)
         fun showLoadedUnCompletedTasks(tasks: List<Task>)
         fun showLoadedCompletedTasks(tasks: List<Task>)
     }
@@ -16,6 +17,7 @@ class HomeContract {
     interface Presenter : BaseContract.Presenter<View> {
         fun getTaskListFromId(id: Int)
         fun getTasksFromTaskListId(listId: Int)
+        fun getTaskFromId(id: Int)
         fun updateTask(task: Task)
     }
 }

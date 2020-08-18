@@ -28,6 +28,7 @@ class MainActivity : BaseActivity<MainContract.View, MainPresenter>(), MainContr
     override val presenter get() = MainPresenter()
 
     private var taskListId = DEFAULT_TASK_LIST_ID
+    private var homeFragment = HomeFragment()
 
     override fun initView(savedInstanceState: Bundle?) {
         initHomeFragment()
@@ -58,6 +59,7 @@ class MainActivity : BaseActivity<MainContract.View, MainPresenter>(), MainContr
     }
 
     override fun onNewTaskCreated(id: Int) {
+        homeFragment.onInsertNewTask(id)
     }
 
     override fun onNewTaskListCreated(id: Int) {
@@ -78,7 +80,7 @@ class MainActivity : BaseActivity<MainContract.View, MainPresenter>(), MainContr
     }
 
     private fun initHomeFragment() {
-        val homeFragment = HomeFragment.newInstance(taskListId)
+        homeFragment = HomeFragment.newInstance(taskListId)
         homeFragment.setOnTaskSelectedListener(this)
         replaceFragment(R.id.frameContainer, homeFragment)
     }

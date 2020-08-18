@@ -30,4 +30,12 @@
     <string name="text_save">Save</string>
     <string name="text_add_new_task">New thing to do</string>
     <string name="text_add_description">Add more information</string>
+    <string name="msg_add_new_task_fail">Add new task fail</string>
+    <string name="tag_color_gray">#607D8B</string>
+    <string name="tag_color_green">#4CAF50</string>
+    <string name="tag_color_cyan">#00BCD4</string>
+    <string name="tag_color_lime">#CDDC39</string>
+    <string name="tag_color_orange">#FFC107</string>
+    <string name="tag_color_red">#F44336</string>
+    <string name="tag_color_purple">#673AB7</string>
 </resources>

@@ -90,9 +90,9 @@ class TaskDAOImpl private constructor(appDatabase: AppDatabase) : TaskDAO {
         return getTaskInSpecificCondition(Task.IS_IMPORTANT, "$TRUE")
     }
 
-    override fun addNewTask(task: Task): Boolean {
+    override fun addNewTask(task: Task): Long {
         val values = task.getContentValues()
-        return database.insert(Task.TABLE_NAME, null, values) > 0
+        return database.insert(Task.TABLE_NAME, null, values)
     }
 
     override fun updateTask(task: Task): Boolean {

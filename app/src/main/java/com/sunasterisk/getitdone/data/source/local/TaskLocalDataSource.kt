@@ -40,8 +40,8 @@ class TaskLocalDataSource private constructor(
         }.execute(Unit)
     }
 
-    override fun addNewTask(task: Task, callback: OnLoadedCallback<Boolean>) {
-        LoadingAsyncTask<Task, Boolean>(callback) {
+    override fun addNewTask(task: Task, callback: OnLoadedCallback<Long>) {
+        LoadingAsyncTask<Task, Long>(callback) {
             taskDAO.addNewTask(task)
         }.execute(task)
     }

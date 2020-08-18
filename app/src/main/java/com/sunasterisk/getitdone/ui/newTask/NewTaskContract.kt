@@ -8,7 +8,7 @@ interface NewTaskContract {
         fun onNewTaskCreated(id: Long)
         fun displayMessage(message: String)
         fun displayMessage(stringId: Int)
-        fun popFragment()
+        fun dismissFragment()
     }
 
     interface Presenter : BaseContract.Presenter<View> {

@@ -16,7 +16,7 @@ interface TaskDataSource {
 
         fun getImportantTasks(callback: OnLoadedCallback<List<Task>>)
 
-        fun addNewTask(task: Task, callback: OnLoadedCallback<Boolean>)
+        fun addNewTask(task: Task, callback: OnLoadedCallback<Long>)
 
         fun updateTask(task: Task, callback: OnLoadedCallback<Boolean>)
 

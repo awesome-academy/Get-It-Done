@@ -29,7 +29,7 @@ class TaskRepository private constructor(
         localDataSource.getImportantTasks(callback)
     }
 
-    override fun addNewTask(task: Task, callback: OnLoadedCallback<Boolean>) {
+    override fun addNewTask(task: Task, callback: OnLoadedCallback<Long>) {
         localDataSource.addNewTask(task, callback)
     }
 

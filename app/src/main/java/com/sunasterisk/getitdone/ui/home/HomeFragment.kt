@@ -91,6 +91,10 @@ class HomeFragment : BaseFragment<HomeContract.View, HomePresenter>(),
         context?.run { toast(message) }
     }
 
+    override fun showInsertedTask(task: Task) {
+        taskUnCompleteAdapter.insertItem(task)
+    }
+
     override fun showLoadedUnCompletedTasks(tasks: List<Task>) {
         taskUnCompleteAdapter.loadItems(tasks.toMutableList())
     }
@@ -98,6 +102,10 @@ class HomeFragment : BaseFragment<HomeContract.View, HomePresenter>(),
     override fun showLoadedCompletedTasks(tasks: List<Task>) {
         taskCompletedAdapter.loadItems(tasks.toMutableList())
         taskCompletedTaskTitleAdapter.loadItems(mutableListOf(taskCompletedAdapter.items.size))
+    }
+
+    fun onInsertNewTask(taskId: Int) {
+        presenter?.getTaskFromId(taskId)
     }
 
     private fun initPresenter() {
@@ -202,14 +210,22 @@ class HomeFragment : BaseFragment<HomeContract.View, HomePresenter>(),
             val index = taskCompletedAdapter.items.indexOf(this)
             taskCompletedAdapter.items[index] = task
             taskCompletedAdapter.updateItem(task)
-            if (task.status != STATUS_COMPLETED) onTaskCheckboxClicked(task)
+            if (task.status != STATUS_COMPLETED) {
+                taskCompletedAdapter.removeItemAt(index)
+                taskUnCompleteAdapter.insertItem(task)
+                updateCompletedTaskTitle()
+            }
         }
 
         taskUnCompleteAdapter.items.find { it.id == task.id }?.apply {
             val index = taskUnCompleteAdapter.items.indexOf(this)
             taskUnCompleteAdapter.items[index] = task
             taskUnCompleteAdapter.updateItem(task)
-            if (task.status != STATUS_NOT_COMPLETE) onTaskCheckboxClicked(task)
+            if (task.status != STATUS_NOT_COMPLETE) {
+                taskUnCompleteAdapter.removeItemAt(index)
+                taskCompletedAdapter.insertItem(task)
+                updateCompletedTaskTitle()
+            }
         }
     }
 
