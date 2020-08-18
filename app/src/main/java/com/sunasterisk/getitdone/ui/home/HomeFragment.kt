@@ -1,8 +1,11 @@
 package com.sunasterisk.getitdone.ui.home
 
+import android.app.SearchManager
+import android.content.Context
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
+import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResultListener
@@ -27,7 +30,7 @@ import com.sunasterisk.getitdone.utils.toast
 import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : BaseFragment<HomeContract.View, HomePresenter>(),
-    HomeContract.View {
+    HomeContract.View, SearchView.OnQueryTextListener {
 
     override val layoutId get() = R.layout.fragment_home
 
@@ -60,16 +63,23 @@ class HomeFragment : BaseFragment<HomeContract.View, HomePresenter>(),
             result?.let { onDeleteTask(it) }
         }
 
-        (activity as AppCompatActivity).setSupportActionBar(toolbarHome)
         setHasOptionsMenu(true)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.home_fragment_search_menu, menu)
+        val searchMenuItem = menu.findItem(R.id.action_search)
+        val searchManager = activity?.getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        (searchMenuItem.actionView as SearchView).apply {
+            queryHint = getString(R.string.msg_search_hint)
+            setSearchableInfo(searchManager.getSearchableInfo(activity?.componentName))
+            setOnQueryTextListener(this@HomeFragment)   
+        }
         super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun initComponents(savedInstanceState: Bundle?) {
+        (activity as AppCompatActivity).setSupportActionBar(toolbarHome)
         initPresenter()
         initBottomBar()
         initAdapter()
@@ -102,6 +112,15 @@ class HomeFragment : BaseFragment<HomeContract.View, HomePresenter>(),
     override fun showLoadedCompletedTasks(tasks: List<Task>) {
         taskCompletedAdapter.loadItems(tasks.toMutableList())
         taskCompletedTaskTitleAdapter.loadItems(mutableListOf(taskCompletedAdapter.items.size))
+    }
+
+    override fun onQueryTextSubmit(query: String): Boolean = false
+
+    override fun onQueryTextChange(newText: String): Boolean {
+        taskUnCompleteAdapter.filter(newText)
+        taskCompletedAdapter.filter(newText)
+        updateCompletedTaskTitle()
+        return true
     }
 
     fun onInsertNewTask(taskId: Int) {
