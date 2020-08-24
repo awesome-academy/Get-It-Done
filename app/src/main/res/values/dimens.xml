@@ -12,4 +12,10 @@
     <dimen name="dp_negative_30">-30dp</dimen>
     <dimen name="dp_60">60dp</dimen>
     <dimen name="px_1">1px</dimen>
+
+    <!--
+Refer to App Widget Documentation for margin information
+http://developer.android.com/guide/topics/appwidgets/index.html#CreatingLayout
+    -->
+    <dimen name="widget_margin">0dp</dimen>
 </resources>

@@ -1,8 +1,14 @@
 package com.sunasterisk.getitdone.ui.home
 
+import android.app.SearchManager
+import android.appwidget.AppWidgetManager
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
+import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResultListener
@@ -18,16 +24,20 @@ import com.sunasterisk.getitdone.data.source.local.dao.TaskDAOImpl
 import com.sunasterisk.getitdone.data.source.local.dao.TaskListDAOImpl
 import com.sunasterisk.getitdone.data.source.local.database.AppDatabase
 import com.sunasterisk.getitdone.utils.Constants.BUNDLE_TASK
+import com.sunasterisk.getitdone.utils.Constants.BUNDLE_TASK_LIST_TITLE
 import com.sunasterisk.getitdone.utils.Constants.DEFAULT_TASK_LIST_ID
+import com.sunasterisk.getitdone.utils.Constants.REQUEST_KEY_DELETE_COMPLETED_TASKS
 import com.sunasterisk.getitdone.utils.Constants.REQUEST_KEY_DELETE_TASK
 import com.sunasterisk.getitdone.utils.Constants.REQUEST_KEY_UPDATE_TASK
+import com.sunasterisk.getitdone.utils.Constants.REQUEST_KEY_UPDATE_TASK_LIST_TITLE
 import com.sunasterisk.getitdone.utils.Constants.STATUS_COMPLETED
 import com.sunasterisk.getitdone.utils.Constants.STATUS_NOT_COMPLETE
 import com.sunasterisk.getitdone.utils.toast
+import com.sunasterisk.getitdone.widget.TaskWidget
 import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : BaseFragment<HomeContract.View, HomePresenter>(),
-    HomeContract.View {
+    HomeContract.View, SearchView.OnQueryTextListener {
 
     override val layoutId get() = R.layout.fragment_home
 
@@ -60,16 +70,31 @@ class HomeFragment : BaseFragment<HomeContract.View, HomePresenter>(),
             result?.let { onDeleteTask(it) }
         }
 
-        (activity as AppCompatActivity).setSupportActionBar(toolbarHome)
+        setFragmentResultListener(REQUEST_KEY_UPDATE_TASK_LIST_TITLE) { _, bundle ->
+            bundle.getString(BUNDLE_TASK_LIST_TITLE)?.let { setToolBarTitle(it) }
+        }
+
+        setFragmentResultListener(REQUEST_KEY_DELETE_COMPLETED_TASKS) { _, _ ->
+            onDeleteCompletedTasks()
+        }
+
         setHasOptionsMenu(true)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.home_fragment_search_menu, menu)
+        val searchMenuItem = menu.findItem(R.id.action_search)
+        val searchManager = activity?.getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        (searchMenuItem.actionView as SearchView).apply {
+            queryHint = getString(R.string.msg_search_hint)
+            setSearchableInfo(searchManager.getSearchableInfo(activity?.componentName))
+            setOnQueryTextListener(this@HomeFragment)
+        }
         super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun initComponents(savedInstanceState: Bundle?) {
+        (activity as AppCompatActivity).setSupportActionBar(toolbarHome)
         initPresenter()
         initBottomBar()
         initAdapter()
@@ -93,15 +118,26 @@ class HomeFragment : BaseFragment<HomeContract.View, HomePresenter>(),
 
     override fun showInsertedTask(task: Task) {
         taskUnCompleteAdapter.insertItem(task)
+        updateWidgetTasks()
     }
 
     override fun showLoadedUnCompletedTasks(tasks: List<Task>) {
         taskUnCompleteAdapter.loadItems(tasks.toMutableList())
+        updateWidgetTasks()
     }
 
     override fun showLoadedCompletedTasks(tasks: List<Task>) {
         taskCompletedAdapter.loadItems(tasks.toMutableList())
         taskCompletedTaskTitleAdapter.loadItems(mutableListOf(taskCompletedAdapter.items.size))
+    }
+
+    override fun onQueryTextSubmit(query: String): Boolean = false
+
+    override fun onQueryTextChange(newText: String): Boolean {
+        taskUnCompleteAdapter.filter(newText)
+        taskCompletedAdapter.filter(newText)
+        updateCompletedTaskTitle()
+        return true
     }
 
     fun onInsertNewTask(taskId: Int) {
@@ -183,6 +219,7 @@ class HomeFragment : BaseFragment<HomeContract.View, HomePresenter>(),
             task.status = STATUS_COMPLETED
         }
         updateCompletedTaskTitle()
+        updateWidgetTasks()
         presenter?.updateTask(task)
     }
 
@@ -227,6 +264,8 @@ class HomeFragment : BaseFragment<HomeContract.View, HomePresenter>(),
                 updateCompletedTaskTitle()
             }
         }
+
+        updateWidgetTasks()
     }
 
     private fun onDeleteTask(task: Task) {
@@ -237,6 +276,27 @@ class HomeFragment : BaseFragment<HomeContract.View, HomePresenter>(),
         } else {
             taskUnCompleteAdapter.items.find { it.id == task.id }?.apply {
                 taskUnCompleteAdapter.removeItem(this)
+                updateWidgetTasks()
+            }
+        }
+    }
+
+    private fun onDeleteCompletedTasks() {
+        taskCompletedAdapter.removeAllItems()
+        updateCompletedTaskTitle()
+    }
+
+    private fun updateWidgetTasks() {
+        val intent = Intent(context, TaskWidget::class.java).apply {
+            action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
+        }
+        context?.let { context ->
+            val idArr = AppWidgetManager.getInstance(context)?.getAppWidgetIds(
+                ComponentName(context.applicationContext, TaskWidget::class.java)
+            )
+            idArr?.let {
+                intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, it)
+                activity?.sendBroadcast(intent)
             }
         }
     }

@@ -25,6 +25,8 @@ interface TaskDataSource {
         fun deleteTask(taskId: Int, callback: OnLoadedCallback<Boolean>)
 
         fun deleteTasksByListId(listId: Int, callback: OnLoadedCallback<Boolean>)
+        
+        fun deleteCompletedTasksByListId(listId: Int, callback: OnLoadedCallback<Boolean>)
     }
 
     interface Remote

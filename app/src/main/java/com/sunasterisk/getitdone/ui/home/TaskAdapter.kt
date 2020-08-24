@@ -19,6 +19,7 @@ import java.util.*
 class TaskAdapter : BaseAdapter<Task, TaskAdapter.TaskViewHolder>() {
 
     override var items = mutableListOf<Task>()
+    private var filteredItems = mutableListOf<Task>()
     var onCheckboxClickListener: (Task) -> Unit = { _ -> }
     var onImportantClickListener: (Task) -> Unit = { _ -> }
     override var clickItemListener: (Task) -> Unit = { _ -> }
@@ -28,6 +29,32 @@ class TaskAdapter : BaseAdapter<Task, TaskAdapter.TaskViewHolder>() {
             LayoutInflater.from(parent.context).inflate(R.layout.task_item, parent, false),
             onCheckboxClickListener, onImportantClickListener, clickItemListener
         )
+
+    override fun loadItems(newItems: MutableList<Task>) {
+        items.clear()
+        filteredItems.clear()
+        items.addAll(newItems)
+        filteredItems.addAll(items)
+        notifyDataSetChanged()
+    }
+
+    private fun loadFilterItems(newItems: MutableList<Task>){
+        items.clear()
+        items.addAll(newItems)
+        notifyDataSetChanged()
+    }
+    
+    fun filter(filterString: String) {
+        val filterItems = mutableListOf<Task>()
+        if (filterString.isNotBlank()) {
+            filterItems.addAll(filteredItems.filter {
+                it.title.contains(filterString, true) || it.description.contains(filterString, true)
+            })
+        } else {
+            filterItems.addAll(filteredItems)
+        }
+        loadFilterItems(filterItems)
+    }
 
     class TaskViewHolder(
         itemView: View,
@@ -129,7 +156,7 @@ class TaskAdapter : BaseAdapter<Task, TaskAdapter.TaskViewHolder>() {
         BaseViewHolder<String>(itemView) {
         override fun bindData(item: String) {
             super.bindData(item)
-            itemView.textCompletedTaskTitle.text = item
+            itemView.text_completed_task_title.text = item
         }
     }
 }

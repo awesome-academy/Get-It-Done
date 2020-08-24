@@ -27,4 +27,6 @@ interface TaskDAO {
     fun deleteTask(taskId: Int): Boolean
 
     fun deleteTasksByListId(listId: Int): Boolean
+    
+    fun deleteCompletedTasksByListId(listId: Int): Boolean
 }

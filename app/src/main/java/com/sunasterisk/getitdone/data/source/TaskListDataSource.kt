@@ -14,7 +14,7 @@ interface TaskListDataSource {
 
         fun changeListTitle(list: TaskList, callback: OnLoadedCallback<Boolean>)
 
-        fun deleteList(list: TaskList, callback: OnLoadedCallback<Boolean>)
+        fun deleteList(listId: Int, callback: OnLoadedCallback<Boolean>)
     }
 
     interface Remote

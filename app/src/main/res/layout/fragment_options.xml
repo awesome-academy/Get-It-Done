@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/navigation_view_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    app:behavior_hideable="true"
+    app:layout_behavior="@string/bottom_sheet_behavior">
+
+    <LinearLayout
+        android:id="@+id/layoutSelectOrder"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_60"
+        android:layout_marginTop="@dimen/dp_15"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:paddingStart="@dimen/dp_15">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/text_sort_by"
+            android:textColor="@android:color/black" />
+
+        <TextView
+            android:id="@+id/textOrderBy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/darker_gray" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/px_1"
+        android:background="@android:color/darker_gray" />
+
+    <TextView
+        android:id="@+id/textRenameList"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_60"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center_vertical"
+        android:paddingStart="@dimen/dp_15"
+        android:text="@string/rename_list"
+        android:textColor="@android:color/black" />
+
+    <LinearLayout
+        android:id="@+id/layoutDeleteList"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_60"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:paddingStart="@dimen/dp_15">
+
+        <TextView
+            android:id="@+id/textDeleteList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/text_delete_list"
+            android:textColor="@android:color/black" />
+
+        <TextView
+            android:id="@+id/textDefaultList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/text_can_not_delete_default_list"
+            android:textColor="@android:color/darker_gray"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textDeleteAllCompletedTask"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_60"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center_vertical"
+        android:paddingStart="@dimen/dp_15"
+        android:text="@string/text_delete_all_completed_task"
+        android:textColor="@android:color/black" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/px_1"
+        android:background="@android:color/darker_gray" />
+
+    <LinearLayout
+        android:id="@+id/layoutSelectTheme"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_60"
+        android:layout_marginBottom="@dimen/dp_15"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:paddingStart="@dimen/dp_15">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/text_select_theme"
+            android:textColor="@android:color/black" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/text_light_theme"
+            android:textColor="@android:color/darker_gray" />
+    </LinearLayout>
+</LinearLayout>

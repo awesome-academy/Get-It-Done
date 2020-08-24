@@ -65,7 +65,7 @@ class HomePresenter(
                 view?.showLoadedCompletedTasks(completedTasks)
             }
 
-            override fun onFailure(exception: Exception) {
+            override fun onFailure(exception: java.lang.Exception) {
                 view?.displayMessage(exception.toString())
             }
         }
