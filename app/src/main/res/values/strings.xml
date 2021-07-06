@@ -24,6 +24,7 @@
     <string name="text_add_new_task_list">Add new Task List</string>
     <string name="text_done">Done</string>
     <string name="title_add_new_list">Add new List</string>
+    <string name="title_rename_list">Rename List</string>
     <string name="msg_add_new_list_successfully">Add new list successful</string>
     <string name="msg_add_new_list_fail">Add new list fail</string>
     <string name="msg_title_empty">Title should not be empty</string>
@@ -38,4 +39,16 @@
     <string name="tag_color_orange">#FFC107</string>
     <string name="tag_color_red">#F44336</string>
     <string name="tag_color_purple">#673AB7</string>
+    <string name="msg_search_hint">Search Task</string>
+    <string name="text_sort_by">Sort by</string>
+    <string name="rename_list">Rename list</string>
+    <string name="text_delete_list">Delete list</string>
+    <string name="text_delete_all_completed_task">Delete all completed tasks</string>
+    <string name="text_select_theme">Theme</string>
+    <string name="text_can_not_delete_default_list">Can not delete default list</string>
+    <string name="text_light_theme">Light</string>
+    <string name="msg_delete_list_successful">Delete list successful</string>
+    <string name="msg_delete_list_fail">Delete list fail</string>
+    <string name="msg_delete_completed_tasks_successful">Delete completed tasks successful</string>
+    <string name="msg_delete_completed_tasks_fail">Delete completed tasks fail</string>
 </resources>

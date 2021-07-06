@@ -13,6 +13,8 @@ import com.sunasterisk.getitdone.ui.newTask.NewTaskFragment
 import com.sunasterisk.getitdone.ui.newTask.NewTaskFragment.Companion.NEW_TASK_TAG
 import com.sunasterisk.getitdone.ui.newTaskList.NewTaskListFragment
 import com.sunasterisk.getitdone.ui.newTaskList.NewTaskListFragment.Companion.NEW_TASK_LIST_TAG
+import com.sunasterisk.getitdone.ui.options.OptionsFragment
+import com.sunasterisk.getitdone.ui.options.OptionsFragment.Companion.OPTIONS_TAG
 import com.sunasterisk.getitdone.ui.taskList.TaskListFragment
 import com.sunasterisk.getitdone.ui.taskList.TaskListFragment.Companion.TASK_LIST_TAG
 import com.sunasterisk.getitdone.utils.Constants.DEFAULT_TASK_LIST_ID
@@ -21,7 +23,8 @@ import com.sunasterisk.getitdone.utils.replaceFragment
 
 class MainActivity : BaseActivity<MainContract.View, MainPresenter>(), MainContract.View,
     HomeFragment.OnItemTaskClickCallBack, TaskListFragment.OnItemTaskListClickCallBack,
-    NewTaskFragment.OnNewTaskCreated, NewTaskListFragment.OnNewTaskListCreated {
+    NewTaskFragment.OnNewTaskCreated, NewTaskListFragment.OnNewTaskListCreated,
+    OptionsFragment.OnDeleteList {
 
     override val layoutRes get() = R.layout.activity_main
     override val styleRes get() = R.style.AppTheme
@@ -51,6 +54,9 @@ class MainActivity : BaseActivity<MainContract.View, MainPresenter>(), MainContr
     }
 
     override fun openSettings() {
+        val optionsFragment = OptionsFragment.newInstance(taskListId)
+        optionsFragment.setOnDeleteListListener(this)
+        optionsFragment.show(supportFragmentManager, OPTIONS_TAG)
     }
 
     override fun onItemTaskListClick(id: Int) {
@@ -68,7 +74,20 @@ class MainActivity : BaseActivity<MainContract.View, MainPresenter>(), MainContr
     }
 
     override fun onAddNewTaskList() {
-        val addNewTaskListFragment = NewTaskListFragment()
+        addOrUpdateTaskList()
+    }
+
+    override fun onRenameList() {
+        addOrUpdateTaskList(taskListId)
+    }
+
+    override fun onListDeleted() {
+        taskListId = DEFAULT_TASK_LIST_ID
+        initHomeFragment()
+    }
+
+    private fun addOrUpdateTaskList(taskListId: Int = -1) {
+        val addNewTaskListFragment = NewTaskListFragment.newInstance(taskListId)
         addNewTaskListFragment.setOnNewTaskListCreatedListener(this)
         addFragment(R.id.frameContainer, addNewTaskListFragment, NEW_TASK_LIST_TAG)
     }

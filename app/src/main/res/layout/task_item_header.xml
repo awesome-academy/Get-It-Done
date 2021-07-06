@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/linearItemHeader"
+    android:id="@+id/layout_item_header"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/dp_10"
@@ -13,7 +13,7 @@
         android:background="@android:color/darker_gray" />
 
     <TextView
-        android:id="@+id/textCompletedTaskTitle"
+        android:id="@+id/text_completed_task_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/dp_15"

@@ -34,10 +34,10 @@ class TaskListLocalDataSource private constructor(
         }.execute(list)
     }
 
-    override fun deleteList(list: TaskList, callback: OnLoadedCallback<Boolean>) {
-        LoadingAsyncTask<TaskList, Boolean>(callback) {
-            taskListDAO.deleteList(list)
-        }.execute(list)
+    override fun deleteList(listId: Int, callback: OnLoadedCallback<Boolean>) {
+        LoadingAsyncTask<Int, Boolean>(callback) {
+            taskListDAO.deleteList(listId)
+        }.execute(listId)
     }
 
     companion object {
